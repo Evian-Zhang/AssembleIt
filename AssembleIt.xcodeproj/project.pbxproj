@@ -13,6 +13,8 @@
 		56F59514222B781E006C5C8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56F59513222B781E006C5C8F /* Assets.xcassets */; };
 		56F59517222B781E006C5C8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56F59515222B781E006C5C8F /* MainMenu.xib */; };
 		56F5951A222B781E006C5C8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F59519222B781E006C5C8F /* main.m */; };
+		56F59525222B7DAC006C5C8F /* AICodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F59523222B7DAC006C5C8F /* AICodeViewController.m */; };
+		56F59526222B7DAC006C5C8F /* AICodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56F59524222B7DAC006C5C8F /* AICodeViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,10 @@
 		56F59518222B781E006C5C8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56F59519222B781E006C5C8F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		56F5951B222B781E006C5C8F /* AssembleIt.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AssembleIt.entitlements; sourceTree = "<group>"; };
+		56F59521222B788D006C5C8F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		56F59522222B7DAC006C5C8F /* AICodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AICodeViewController.h; sourceTree = "<group>"; };
+		56F59523222B7DAC006C5C8F /* AICodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AICodeViewController.m; sourceTree = "<group>"; };
+		56F59524222B7DAC006C5C8F /* AICodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AICodeViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +49,7 @@
 		56F594FE222B781D006C5C8F = {
 			isa = PBXGroup;
 			children = (
+				56F59521222B788D006C5C8F /* README.md */,
 				56F59509222B781D006C5C8F /* AssembleIt */,
 				56F59508222B781D006C5C8F /* Products */,
 			);
@@ -63,14 +70,25 @@
 				56F5950B222B781D006C5C8F /* AppDelegate.m */,
 				56F5950D222B781D006C5C8F /* Document.h */,
 				56F5950E222B781D006C5C8F /* Document.m */,
-				56F59510222B781D006C5C8F /* Document.xib */,
+				56F59522222B7DAC006C5C8F /* AICodeViewController.h */,
+				56F59523222B7DAC006C5C8F /* AICodeViewController.m */,
 				56F59513222B781E006C5C8F /* Assets.xcassets */,
-				56F59515222B781E006C5C8F /* MainMenu.xib */,
 				56F59518222B781E006C5C8F /* Info.plist */,
 				56F59519222B781E006C5C8F /* main.m */,
 				56F5951B222B781E006C5C8F /* AssembleIt.entitlements */,
+				56F59527222B7DB5006C5C8F /* Interface */,
 			);
 			path = AssembleIt;
+			sourceTree = "<group>";
+		};
+		56F59527222B7DB5006C5C8F /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				56F59515222B781E006C5C8F /* MainMenu.xib */,
+				56F59510222B781D006C5C8F /* Document.xib */,
+				56F59524222B7DAC006C5C8F /* AICodeViewController.xib */,
+			);
+			path = Interface;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56F59514222B781E006C5C8F /* Assets.xcassets in Resources */,
+				56F59526222B7DAC006C5C8F /* AICodeViewController.xib in Resources */,
 				56F59512222B781D006C5C8F /* Document.xib in Resources */,
 				56F59517222B781E006C5C8F /* MainMenu.xib in Resources */,
 			);
@@ -144,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56F5950F222B781D006C5C8F /* Document.m in Sources */,
+				56F59525222B7DAC006C5C8F /* AICodeViewController.m in Sources */,
 				56F5951A222B781E006C5C8F /* main.m in Sources */,
 				56F5950C222B781D006C5C8F /* AppDelegate.m in Sources */,
 			);

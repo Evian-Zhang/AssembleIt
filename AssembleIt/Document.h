@@ -8,8 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AICodeViewController.h"
+
 @interface Document : NSDocument
 
+@property (nonatomic) AICodeViewController *codeViewController;
+
+@property (nonatomic, copy) NSArray<NSString*> *codeLines;
 
 @end
 

@@ -14,12 +14,22 @@
 
 @implementation Document
 
+@synthesize codeViewController = _codeViewController;
+
+@synthesize codeLines = _codeLines;
+
 - (instancetype)init {
     self = [super init];
     if (self) {
         // Add your subclass-specific initialization here.
     }
     return self;
+}
+
+- (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
+    self.codeViewController = [[AICodeViewController alloc] initWithNibName:@"AICodeViewController" bundle:nil];
+    self.codeViewController.codeLines = [self.codeLines mutableCopy];
+    windowController.window.contentViewController = self.codeViewController;
 }
 
 + (BOOL)autosavesInPlace {
@@ -46,7 +56,11 @@
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return NO.
     // Alternatively, you could remove this method and override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you do, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
+    if ([typeName isEqualToString:@"DocumentType"]) {
+        NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSArray<NSString*> *codeLines = [content componentsSeparatedByString:@"\n"];
+        self.codeLines = codeLines;
+    }
     return YES;
 }
 
