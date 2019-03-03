@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56807971222C10C0000DA9BA /* AICodeViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 5680796F222C10C0000DA9BA /* AICodeViewController2.m */; };
+		56807972222C10C0000DA9BA /* AICodeViewController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56807970222C10C0000DA9BA /* AICodeViewController2.xib */; };
+		56807975222C2D33000DA9BA /* AIRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56807974222C2D33000DA9BA /* AIRulerView.m */; };
 		56F5950C222B781D006C5C8F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F5950B222B781D006C5C8F /* AppDelegate.m */; };
 		56F5950F222B781D006C5C8F /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F5950E222B781D006C5C8F /* Document.m */; };
 		56F59512222B781D006C5C8F /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56F59510222B781D006C5C8F /* Document.xib */; };
@@ -18,6 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5680796E222C10C0000DA9BA /* AICodeViewController2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AICodeViewController2.h; sourceTree = "<group>"; };
+		5680796F222C10C0000DA9BA /* AICodeViewController2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AICodeViewController2.m; sourceTree = "<group>"; };
+		56807970222C10C0000DA9BA /* AICodeViewController2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AICodeViewController2.xib; sourceTree = "<group>"; };
+		56807973222C2D33000DA9BA /* AIRulerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIRulerView.h; sourceTree = "<group>"; };
+		56807974222C2D33000DA9BA /* AIRulerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIRulerView.m; sourceTree = "<group>"; };
 		56F59507222B781D006C5C8F /* AssembleIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssembleIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56F5950A222B781D006C5C8F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		56F5950B222B781D006C5C8F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -72,6 +80,10 @@
 				56F5950E222B781D006C5C8F /* Document.m */,
 				56F59522222B7DAC006C5C8F /* AICodeViewController.h */,
 				56F59523222B7DAC006C5C8F /* AICodeViewController.m */,
+				5680796E222C10C0000DA9BA /* AICodeViewController2.h */,
+				5680796F222C10C0000DA9BA /* AICodeViewController2.m */,
+				56807973222C2D33000DA9BA /* AIRulerView.h */,
+				56807974222C2D33000DA9BA /* AIRulerView.m */,
 				56F59513222B781E006C5C8F /* Assets.xcassets */,
 				56F59518222B781E006C5C8F /* Info.plist */,
 				56F59519222B781E006C5C8F /* main.m */,
@@ -87,6 +99,7 @@
 				56F59515222B781E006C5C8F /* MainMenu.xib */,
 				56F59510222B781D006C5C8F /* Document.xib */,
 				56F59524222B7DAC006C5C8F /* AICodeViewController.xib */,
+				56807970222C10C0000DA9BA /* AICodeViewController2.xib */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -149,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56F59514222B781E006C5C8F /* Assets.xcassets in Resources */,
+				56807972222C10C0000DA9BA /* AICodeViewController2.xib in Resources */,
 				56F59526222B7DAC006C5C8F /* AICodeViewController.xib in Resources */,
 				56F59512222B781D006C5C8F /* Document.xib in Resources */,
 				56F59517222B781E006C5C8F /* MainMenu.xib in Resources */,
@@ -163,7 +177,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				56F5950F222B781D006C5C8F /* Document.m in Sources */,
+				56807975222C2D33000DA9BA /* AIRulerView.m in Sources */,
 				56F59525222B7DAC006C5C8F /* AICodeViewController.m in Sources */,
+				56807971222C10C0000DA9BA /* AICodeViewController2.m in Sources */,
 				56F5951A222B781E006C5C8F /* main.m in Sources */,
 				56F5950C222B781D006C5C8F /* AppDelegate.m in Sources */,
 			);

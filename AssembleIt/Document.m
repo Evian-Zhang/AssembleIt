@@ -15,7 +15,9 @@
 @implementation Document
 
 @synthesize codeViewController = _codeViewController;
+@synthesize codeViewController2 = _codeViewController2;
 
+@synthesize codeContent = _codeContent;
 @synthesize codeLines = _codeLines;
 
 - (instancetype)init {
@@ -27,9 +29,12 @@
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
-    self.codeViewController = [[AICodeViewController alloc] initWithNibName:@"AICodeViewController" bundle:nil];
-    self.codeViewController.codeLines = [self.codeLines mutableCopy];
-    windowController.window.contentViewController = self.codeViewController;
+//    self.codeViewController = [[AICodeViewController alloc] initWithNibName:@"AICodeViewController" bundle:nil];
+//    self.codeViewController.codeLines = [self.codeLines mutableCopy];
+//    windowController.window.contentViewController = self.codeViewController;
+    self.codeViewController2 = [[AICodeViewController2 alloc] initWithNibName:@"AICodeViewController2" bundle:nil];
+    self.codeViewController2.content = self.codeContent;
+    windowController.window.contentViewController = self.codeViewController2;
 }
 
 + (BOOL)autosavesInPlace {
@@ -56,10 +61,13 @@
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return NO.
     // Alternatively, you could remove this method and override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you do, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
+//    if ([typeName isEqualToString:@"DocumentType"]) {
+//        NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        NSArray<NSString*> *codeLines = [content componentsSeparatedByString:@"\n"];
+//        self.codeLines = codeLines;
+//    }
     if ([typeName isEqualToString:@"DocumentType"]) {
-        NSString *content = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSArray<NSString*> *codeLines = [content componentsSeparatedByString:@"\n"];
-        self.codeLines = codeLines;
+        self.codeContent = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
     return YES;
 }

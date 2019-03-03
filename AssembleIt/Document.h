@@ -9,11 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 #import "AICodeViewController.h"
+#import "AICodeViewController2.h"
 
 @interface Document : NSDocument
 
 @property (nonatomic) AICodeViewController *codeViewController;
+@property (nonatomic) AICodeViewController2 *codeViewController2;
 
+@property (nonatomic, copy) NSString *codeContent;
 @property (nonatomic, copy) NSArray<NSString*> *codeLines;
 
 @end
