@@ -28,6 +28,7 @@
     
     AIRulerView *rulerView = [[AIRulerView alloc] initWithScrollView:self.scrollView orientation:NSVerticalRuler];
     rulerView.clientView = self.codeView;
+    rulerView.backgroundColor = self.codeView.backgroundColor;
     
     self.scrollView.verticalRulerView = rulerView;
     self.scrollView.rulersVisible = YES;

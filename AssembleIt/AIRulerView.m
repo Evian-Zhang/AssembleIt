@@ -25,7 +25,7 @@
     if (self = [super initWithScrollView:scrollView orientation:orientation]) {
         self.font = [NSFont labelFontOfSize:[NSFont systemFontSizeForControlSize:NSControlSizeMini]];
         self.textColor = [NSColor darkGrayColor];
-        self.backgroundColor = [NSColor colorWithCalibratedWhite:0.9 alpha:1.0];
+//        self.backgroundColor = [NSColor colorWithCalibratedWhite:0.9 alpha:1.0];
         return self;
     }
     return nil;
