@@ -14,9 +14,15 @@
 
 @implementation AIProjectViewController
 
+@synthesize projectContents = _projectContents;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
+}
+
+- (void)viewDidAppear {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewDidAppear" object:self];
 }
 
 @end

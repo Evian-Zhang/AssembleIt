@@ -9,24 +9,6 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>asm</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string></string>
-			<key>CFBundleTypeName</key>
-			<string>DocumentType</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>????</string>
-			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>NSDocumentClass</key>
-			<string>Document</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>aiproj</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -45,6 +27,24 @@
 			</array>
 			<key>NSDocumentClass</key>
 			<string>AIProjectDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>asm</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string></string>
+			<key>CFBundleTypeName</key>
+			<string>DocumentType</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>Document</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -84,6 +84,8 @@
 			<string>com.zhang.evian.aiproj</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
+				<key>com.apple.ostype</key>
+				<array/>
 				<key>public.filename-extension</key>
 				<array>
 					<string>aiproj</string>

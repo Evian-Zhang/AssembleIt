@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectViewController : NSViewController
 
+@property (nonatomic, copy) NSMutableDictionary *projectContents;
+
 @end
 
 NS_ASSUME_NONNULL_END

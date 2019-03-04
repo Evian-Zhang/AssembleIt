@@ -16,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) AIProjectViewController *projectViewController;
 
+@property (nonatomic, getter = isCreated) BOOL created;
+@property (nonatomic, copy) NSDictionary *projectContents;
+
 @end
 
 NS_ASSUME_NONNULL_END
