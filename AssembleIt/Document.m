@@ -32,6 +32,7 @@
 //    self.codeViewController = [[AICodeViewController alloc] initWithNibName:@"AICodeViewController" bundle:nil];
 //    self.codeViewController.codeLines = [self.codeLines mutableCopy];
 //    windowController.window.contentViewController = self.codeViewController;
+    
     self.codeViewController2 = [[AICodeViewController2 alloc] initWithNibName:@"AICodeViewController2" bundle:nil];
     self.codeViewController2.content = self.codeContent;
     windowController.window.contentViewController = self.codeViewController2;
@@ -52,8 +53,8 @@
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return nil.
     // Alternatively, you could remove this method and override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
-    return nil;
+    NSData *data = [self.codeViewController2.codeView.textStorage.string dataUsingEncoding:NSUTF8StringEncoding];
+    return data;
 }
 
 
@@ -70,6 +71,26 @@
         self.codeContent = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
     return YES;
+}
+
+- (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
+    return [self.codeViewController2.codeView.textStorage.string writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:outError];
+}
+
+- (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    [savePanel setNameFieldStringValue:@"Untitle.asm"];
+    [savePanel setMessage:NSLocalizedString(@"Choose the path to save the document", @"string for NSSavePanel of ASM file")];
+    [savePanel setAllowsOtherFileTypes:NO];
+    [savePanel setAllowedFileTypes:@[@"asm"]];
+    [savePanel setExtensionHidden:NO];
+    [savePanel setCanCreateDirectories:YES];
+    [savePanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSInteger result) {
+        if (result == NSModalResponseOK) {
+            NSString *path = [[savePanel URL] path];
+            [@"onecodego" writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        }
+    }];
 }
 
 

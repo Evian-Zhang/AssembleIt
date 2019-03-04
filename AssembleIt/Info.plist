@@ -24,6 +24,28 @@
 			<key>NSDocumentClass</key>
 			<string>Document</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>aiproj</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>Default</string>
+			<key>CFBundleTypeName</key>
+			<string>DocumentType</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.zhang.evian.aiproj</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>AIProjectDocument</string>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -49,5 +71,25 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>AssembleIt file</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.zhang.evian.aiproj</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>aiproj</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
