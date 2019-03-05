@@ -10,6 +10,8 @@
 
 @implementation AIProjectDocument
 
+@synthesize startAlert = _startAlert;
+
 @synthesize created = _created;
 @synthesize projectContents = _projectContents;
 
@@ -32,8 +34,41 @@
 
 - (void)windowDidAppear {
     if (self.isCreated) {
+        self.startAlert = [[NSAlert alloc] init];
+        self.startAlert.alertStyle = NSAlertStyleInformational;
+        self.startAlert.messageText = NSLocalizedString(@"Create a new AssembleIt project", @"Message text in start alert of new aiproj");
         
+        NSButton *okButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Next", @"Title of OK button in start alert of new aiproj")];
+        okButton.keyEquivalent = @"\r";
+        
+        NSButton *cancelButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Title of cancel button in start alert of new aiproj")];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAlertDidClose) name:NSWindowDidEndSheetNotification object:nil];
+        
+        [self.startAlert beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse returnCode) {
+            switch (returnCode) {
+                case NSAlertFirstButtonReturn:
+                {
+                    [self saveDocument:self];
+                }
+                    break;
+                    
+                case NSAlertSecondButtonReturn:
+                {
+                    
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
     }
+}
+
+- (void)startAlertDidClose {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:self.windowForSheet];
+    [self close];
 }
 
 - (NSString *)windowNibName {
