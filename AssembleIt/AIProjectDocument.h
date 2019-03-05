@@ -9,12 +9,12 @@
 #import <Cocoa/Cocoa.h>
 
 #import "AIProjectViewController.h"
+#import "AIProjectWindowController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectDocument : NSDocument
 
-@property (nonatomic) AIProjectViewController *projectViewController;
 
 @property (nonatomic, getter = isCreated) BOOL created;
 @property (nonatomic, copy) NSDictionary *projectContents;
@@ -22,3 +22,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

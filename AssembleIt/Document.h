@@ -11,7 +11,7 @@
 #import "AICodeViewController.h"
 #import "AICodeViewController2.h"
 
-@interface Document : NSDocument
+@interface Document : NSDocument <NSOpenSavePanelDelegate>
 
 @property (nonatomic) AICodeViewController *codeViewController;
 @property (nonatomic) AICodeViewController2 *codeViewController2;

@@ -77,21 +77,4 @@
     return [self.codeViewController2.codeView.textStorage.string writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:outError];
 }
 
-- (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
-    NSSavePanel *savePanel = [NSSavePanel savePanel];
-    [savePanel setNameFieldStringValue:@"Untitle.asm"];
-    [savePanel setMessage:NSLocalizedString(@"Choose the path to save the document", @"string for NSSavePanel of ASM file")];
-    [savePanel setAllowsOtherFileTypes:NO];
-    [savePanel setAllowedFileTypes:@[@"asm"]];
-    [savePanel setExtensionHidden:NO];
-    [savePanel setCanCreateDirectories:YES];
-    [savePanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSInteger result) {
-        if (result == NSModalResponseOK) {
-            NSString *path = [[savePanel URL] path];
-            [@"onecodego" writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        }
-    }];
-}
-
-
 @end

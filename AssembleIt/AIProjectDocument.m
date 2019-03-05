@@ -10,8 +10,6 @@
 
 @implementation AIProjectDocument
 
-@synthesize projectViewController = _projectViewController;
-
 @synthesize created = _created;
 @synthesize projectContents = _projectContents;
 
@@ -34,22 +32,26 @@
 
 - (void)windowDidAppear {
     if (self.isCreated) {
-        [self saveDocument:self];
+        
     }
 }
 
 - (NSString *)windowNibName {
     // Override to return the nib file name of the document.
     // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
-    return @"AIProjectDocument";
+    return @"AIProjectWindowController";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *)aController {
+- (void)makeWindowControllers {
+    AIProjectWindowController *projectWindowController = [[AIProjectWindowController alloc] initWithWindowNibName:@"AIProjectWindowController" owner:self];
+    [projectWindowController awakeFromNib];
+    [self addWindowController:projectWindowController];
+}
+
+- (void)windowControllerDidLoadNib:(AIProjectWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
-    self.projectViewController = [[AIProjectViewController alloc] initWithNibName:@"AIProjectViewController" bundle:nil];
-    self.projectViewController.projectContents = [self.projectContents mutableCopy];
-    aController.contentViewController = self.projectViewController;
+    aController.projectViewController.projectContents = [self.projectContents mutableCopy];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
@@ -73,37 +75,6 @@
 -  (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
     self.projectContents = [NSDictionary dictionaryWithContentsOfURL:url];
     return YES;
-}
-
-- (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
-    NSSavePanel *savePanel = [NSSavePanel savePanel];
-    [savePanel setNameFieldStringValue:@"Untitle.aiproj"];
-    [savePanel setMessage:NSLocalizedString(@"Choose the path to save the document", @"string for NSSavePanel of AIPROJ file")];
-    [savePanel setAllowsOtherFileTypes:NO];
-    [savePanel setAllowedFileTypes:@[@"aiproj"]];
-    [savePanel setExtensionHidden:NO];
-    [savePanel setCanCreateDirectories:YES];
-    [savePanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSInteger result) {
-        switch (result) {
-            case NSModalResponseOK:
-            {
-                NSString *path = [[savePanel URL] path];
-                [@"onecodego" writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
-            }
-                break;
-                
-            case NSModalResponseCancel:
-            {
-                if (self.isCreated) {
-                    [self close];
-                }
-            }
-                break;
-                
-            default:
-                break;
-        }
-    }];
 }
 
 + (BOOL)autosavesInPlace {
