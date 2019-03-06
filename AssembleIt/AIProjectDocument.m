@@ -37,14 +37,14 @@
         self.startAlert = [[NSAlert alloc] init];
         self.startAlert.alertStyle = NSAlertStyleInformational;
         self.startAlert.messageText = NSLocalizedString(@"Create a new AssembleIt project", @"Message text in start alert of new aiproj");
-        
+
         NSButton *okButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Next", @"Title of OK button in start alert of new aiproj")];
         okButton.keyEquivalent = @"\r";
-        
+
         NSButton *cancelButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Title of cancel button in start alert of new aiproj")];
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAlertDidClose) name:NSWindowDidEndSheetNotification object:nil];
-        
+
         [self.startAlert beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse returnCode) {
             switch (returnCode) {
                 case NSAlertFirstButtonReturn:
@@ -52,13 +52,13 @@
                     [self saveDocument:self];
                 }
                     break;
-                    
+
                 case NSAlertSecondButtonReturn:
                 {
-                    
+
                 }
                     break;
-                    
+
                 default:
                     break;
             }
@@ -96,6 +96,11 @@
         *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:nil];
     }
     return nil;
+}
+
+- (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
+    self.created = NO;
+    return [super writeToURL:url ofType:typeName error:outError];
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
