@@ -11,9 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AIProjectWindowController : NSWindowController
+@interface AIProjectWindowController : NSWindowController <NSWindowDelegate>
 
 @property (nonatomic) AIProjectViewController *projectViewController;
+
+- (void)displayStartWindow;
 
 @end
 

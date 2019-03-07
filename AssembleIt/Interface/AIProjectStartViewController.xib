@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="AIProjectStartViewController">
+            <connections>
+                <outlet property="cancelButton" destination="s6g-Hh-sR9" id="J5n-4B-c91"/>
+                <outlet property="okButton" destination="XpE-Hh-1Tw" id="g65-JK-icp"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="669" height="272"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XpE-Hh-1Tw">
+                    <rect key="frame" x="596" y="13" width="59" height="32"/>
+                    <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="udK-xz-vMY">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                    </buttonCell>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s6g-Hh-sR9">
+                    <rect key="frame" x="14" y="13" width="82" height="32"/>
+                    <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gC3-Tt-3bQ">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                    </buttonCell>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VbV-0t-1a3">
+                    <rect key="frame" x="217" y="127" width="234" height="17"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="You are going to create a new project." id="h2r-Vj-5Gg">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="XpE-Hh-1Tw" secondAttribute="trailing" constant="20" symbolic="YES" id="6wY-l4-y9p"/>
+                <constraint firstItem="s6g-Hh-sR9" firstAttribute="baseline" secondItem="XpE-Hh-1Tw" secondAttribute="baseline" id="8TC-rv-xJx"/>
+                <constraint firstItem="s6g-Hh-sR9" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" symbolic="YES" id="Fd2-GA-dRx"/>
+                <constraint firstItem="VbV-0t-1a3" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="QdE-MS-ccP"/>
+                <constraint firstItem="VbV-0t-1a3" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="U89-5V-jYB"/>
+                <constraint firstAttribute="bottom" secondItem="s6g-Hh-sR9" secondAttribute="bottom" constant="20" symbolic="YES" id="UXW-Gl-QGS"/>
+            </constraints>
+            <point key="canvasLocation" x="171.5" y="154"/>
+        </customView>
+    </objects>
+</document>

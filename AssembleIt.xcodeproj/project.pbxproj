@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		562D923A22318EED00201986 /* AIProjectStartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 562D923822318EED00201986 /* AIProjectStartViewController.m */; };
+		562D923B22318EED00201986 /* AIProjectStartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 562D923922318EED00201986 /* AIProjectStartViewController.xib */; };
 		564A4ECA222D7C4500F8D08B /* AIProjectDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 564A4EC8222D7C4500F8D08B /* AIProjectDocument.m */; };
 		565D7565222E800900914EDA /* AIProjectWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 565D7563222E800900914EDA /* AIProjectWindowController.m */; };
 		565D7566222E800900914EDA /* AIProjectWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565D7564222E800900914EDA /* AIProjectWindowController.xib */; };
@@ -26,6 +28,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		562D923722318EED00201986 /* AIProjectStartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIProjectStartViewController.h; sourceTree = "<group>"; };
+		562D923822318EED00201986 /* AIProjectStartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIProjectStartViewController.m; sourceTree = "<group>"; };
+		562D923922318EED00201986 /* AIProjectStartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AIProjectStartViewController.xib; sourceTree = "<group>"; };
 		564A4EC7222D7C4500F8D08B /* AIProjectDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIProjectDocument.h; sourceTree = "<group>"; };
 		564A4EC8222D7C4500F8D08B /* AIProjectDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIProjectDocument.m; sourceTree = "<group>"; };
 		565D7562222E800900914EDA /* AIProjectWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIProjectWindowController.h; sourceTree = "<group>"; };
@@ -97,6 +102,8 @@
 				565D7563222E800900914EDA /* AIProjectWindowController.m */,
 				56B85EF3222CBAA800CE3AE6 /* AIProjectViewController.h */,
 				56B85EF4222CBAA800CE3AE6 /* AIProjectViewController.m */,
+				562D923722318EED00201986 /* AIProjectStartViewController.h */,
+				562D923822318EED00201986 /* AIProjectStartViewController.m */,
 				56F59522222B7DAC006C5C8F /* AICodeViewController.h */,
 				56F59523222B7DAC006C5C8F /* AICodeViewController.m */,
 				5680796E222C10C0000DA9BA /* AICodeViewController2.h */,
@@ -121,6 +128,7 @@
 				56807970222C10C0000DA9BA /* AICodeViewController2.xib */,
 				565D7564222E800900914EDA /* AIProjectWindowController.xib */,
 				56B85EF5222CBAA800CE3AE6 /* AIProjectViewController.xib */,
+				562D923922318EED00201986 /* AIProjectStartViewController.xib */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -188,6 +196,7 @@
 				56B85EF7222CBAA800CE3AE6 /* AIProjectViewController.xib in Resources */,
 				56F59526222B7DAC006C5C8F /* AICodeViewController.xib in Resources */,
 				56F59512222B781D006C5C8F /* Document.xib in Resources */,
+				562D923B22318EED00201986 /* AIProjectStartViewController.xib in Resources */,
 				56F59517222B781E006C5C8F /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,6 +217,7 @@
 				56F5951A222B781E006C5C8F /* main.m in Sources */,
 				564A4ECA222D7C4500F8D08B /* AIProjectDocument.m in Sources */,
 				56F5950C222B781D006C5C8F /* AppDelegate.m in Sources */,
+				562D923A22318EED00201986 /* AIProjectStartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

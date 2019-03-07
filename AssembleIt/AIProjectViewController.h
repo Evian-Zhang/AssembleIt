@@ -8,11 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIProjectStartViewController.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectViewController : NSViewController
 
-@property (nonatomic) IBOutlet NSWindow *startWindow;
+@property (nonatomic) AIProjectStartViewController *startViewController;
 
 @property (nonatomic, copy) NSMutableDictionary *projectContents;
 

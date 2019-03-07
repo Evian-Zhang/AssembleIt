@@ -14,11 +14,13 @@
 
 @implementation AIProjectViewController
 
+@synthesize startViewController = _startViewController;
 @synthesize projectContents = _projectContents;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
+    self.startViewController = [[AIProjectStartViewController alloc] initWithNibName:@"AIProjectStartViewController" bundle:nil];
 }
 
 - (void)viewDidAppear {
