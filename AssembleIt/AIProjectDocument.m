@@ -34,37 +34,48 @@
 
 - (void)windowDidAppear {
     if (self.isCreated) {
-        self.startAlert = [[NSAlert alloc] init];
-        self.startAlert.alertStyle = NSAlertStyleInformational;
-        self.startAlert.messageText = NSLocalizedString(@"Create a new AssembleIt project", @"Message text in start alert of new aiproj");
+        
 
-        NSButton *okButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Next", @"Title of OK button in start alert of new aiproj")];
-        okButton.keyEquivalent = @"\r";
-
-        NSButton *cancelButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Title of cancel button in start alert of new aiproj")];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAlertDidClose) name:NSWindowDidEndSheetNotification object:nil];
-
-        [self.startAlert beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse returnCode) {
-            switch (returnCode) {
-                case NSAlertFirstButtonReturn:
-                {
-                    [self saveDocument:self];
-                }
-                    break;
-
-                case NSAlertSecondButtonReturn:
-                {
-
-                }
-                    break;
-
-                default:
-                    break;
-            }
-        }];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAlertDidClose) name:NSWindowDidEndSheetNotification object:nil];
+//        [self.startAlert beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse returnCode) {
+//            switch (returnCode) {
+//                case NSAlertFirstButtonReturn:
+//                {
+//                    [self saveDocument:self];
+//                }
+//                    break;
+//
+//                case NSAlertSecondButtonReturn:
+//                {
+//
+//                }
+//                    break;
+//
+//                default:
+//                    break;
+//            }
+//        }];
+        AIProjectViewController *viewController = self.windowForSheet.contentViewController;
+        [viewController.startWindow awakeFromNib];
+        NSWindow *startWindow = viewController.startWindow;
+        NSRect windowRect = self.windowForSheet.frame;
+        NSRect startWindowRect = startWindow.frame;
+        
+        NSPoint pos;
+        pos.x = windowRect.origin.x + windowRect.size.width / 2 - startWindowRect.size.width / 2;
+        pos.y = windowRect.origin.y + self.windowForSheet.contentView.frame.size.height - startWindowRect.size.height;
+        [startWindow setFrameOrigin:pos];
+//        [viewController.startWindow beginSheet:self.windowForSheet completionHandler:^(NSModalResponse returnCode) {
+//
+//        }];
+        startWindow.backgroundColor = [NSColor whiteColor];
+        [startWindow makeKeyAndOrderFront:self];
     }
 }
+
+//- (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect {
+//    return NSMakeRect(0, 0, 200, 100);
+//}
 
 - (void)startAlertDidClose {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:self.windowForSheet];
@@ -87,6 +98,14 @@
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
     aController.projectViewController.projectContents = [self.projectContents mutableCopy];
+    self.startAlert = [[NSAlert alloc] init];
+    self.startAlert.alertStyle = NSAlertStyleInformational;
+    self.startAlert.messageText = NSLocalizedString(@"Create a new AssembleIt project", @"Message text in start alert of new aiproj");
+    
+    NSButton *okButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Next", @"Title of OK button in start alert of new aiproj")];
+    okButton.keyEquivalent = @"\r";
+    
+    NSButton *cancelButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Title of cancel button in start alert of new aiproj")];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {

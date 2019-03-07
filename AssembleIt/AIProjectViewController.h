@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectViewController : NSViewController
 
+@property (nonatomic) IBOutlet NSWindow *startWindow;
+
 @property (nonatomic, copy) NSMutableDictionary *projectContents;
 
 @end

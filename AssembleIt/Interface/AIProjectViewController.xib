@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AIProjectViewController">
             <connections>
+                <outlet property="startWindow" destination="lkB-wW-agR" id="cSX-Pk-pid"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -42,5 +43,15 @@
             </constraints>
             <point key="canvasLocation" x="205.5" y="-8"/>
         </customView>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="lkB-wW-agR">
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="1571" y="614" width="480" height="270"/>
+            <rect key="screenRect" x="1440" y="0.0" width="1440" height="2560"/>
+            <view key="contentView" id="x4i-hi-Vur">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+            <point key="canvasLocation" x="101" y="-613"/>
+        </window>
     </objects>
 </document>
