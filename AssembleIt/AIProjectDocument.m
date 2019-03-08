@@ -17,6 +17,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.created = NO;
+        self.projectContents = [NSDictionary dictionary];
         [self initNotifications];
         return self;
     }
@@ -59,14 +60,24 @@
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return nil.
     // Alternatively, you could remove this method and override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
+    NSError *error;
+    NSData *data = [NSPropertyListSerialization dataWithPropertyList:self.projectContents format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+    
+    if (error) {
+        NSLog(@"%@", error);
+    }
+    
     if (outError) {
         *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:nil];
     }
-    return nil;
+    return data;
 }
 
 - (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
     self.created = NO;
+    NSMutableDictionary *projectMutableContents = [self.projectContents mutableCopy];
+    [projectMutableContents setValue:[url absoluteString] forKey:@"AIProjectUrl"];
+    self.projectContents = [projectMutableContents copy];
     return [super writeToURL:url ofType:typeName error:outError];
 }
 
@@ -77,7 +88,12 @@
     // Alternatively, you could remove this method and override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you do, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
     //self.projectContents = [NSDictionary propertyList];
-    
+    NSError *error;
+    NSPropertyListFormat propertyListFormat = NSPropertyListXMLFormat_v1_0;
+    self.projectContents = (NSDictionary *)[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:&propertyListFormat error:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
     return YES;
 }
 
@@ -102,10 +118,10 @@
 
 - (void)savePanelDidClose {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:nil];
-    if (!self.fileURL) {
-        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-        [projectWindowController displayStartView];
-    }
+//    if (!self.fileURL) {
+//        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+//        [projectWindowController displayStartView];
+//    }
 }
 
 - (void)handleAIProjectViewStartViewOkButtonPressedNotification {
