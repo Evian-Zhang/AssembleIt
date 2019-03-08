@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AIProjectDocument : NSDocument <NSWindowDelegate>
+@interface AIProjectDocument : NSDocument
 
 @property (nonatomic) NSAlert *startAlert;
 

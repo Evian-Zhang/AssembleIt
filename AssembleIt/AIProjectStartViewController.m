@@ -26,11 +26,11 @@
 
 
 - (void)handleOkButton {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewStartWindowOkButtonPressed" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewStartViewOkButtonPressed" object:self];
 }
 
 - (void)handleCancelButton {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewStartWindowCancelButtonPressed" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewStartViewCancelButtonPressed" object:self];
 }
 
 @end

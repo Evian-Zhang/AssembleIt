@@ -19,8 +19,8 @@
     if (self = [super init]) {
         self.created = NO;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidAppear) name:@"AIProjectWindowSetUpComplete" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartWindowOkButtonPressedNotification) name:@"AIProjectViewStartWindowOkButtonPressed" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartWindowCancelButtonPressedNotification) name:@"AIProjectViewStartWindowCancelButtonPressed" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
         
         return self;
     }
@@ -37,39 +37,17 @@
 
 - (void)windowDidAppear {
     if (self.isCreated) {
-        
-
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAlertDidClose) name:NSWindowDidEndSheetNotification object:nil];
-//        [self.startAlert beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse returnCode) {
-//            switch (returnCode) {
-//                case NSAlertFirstButtonReturn:
-//                {
-//                    [self saveDocument:self];
-//                }
-//                    break;
-//
-//                case NSAlertSecondButtonReturn:
-//                {
-//
-//                }
-//                    break;
-//
-//                default:
-//                    break;
-//            }
-//        }];
-        AIProjectWindowController *projectWindowController = self.windowControllers[0];
-        [projectWindowController displayStartWindow];
+        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+        [projectWindowController displayStartView];
     }
 }
 
-//- (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect {
-//    return NSMakeRect(0, 0, 200, 100);
-//}
-
-- (void)startAlertDidClose {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:self.windowForSheet];
-    [self close];
+- (void)savePanelDidClose {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:nil];
+    if (!self.fileURL) {
+        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+        [projectWindowController displayStartView];
+    }
 }
 
 - (NSString *)windowNibName {
@@ -87,25 +65,19 @@
 - (void)windowControllerDidLoadNib:(AIProjectWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
-//    aController.projectViewController.projectContents = [self.projectContents mutableCopy];
-//    self.startAlert = [[NSAlert alloc] init];
-//    self.startAlert.alertStyle = NSAlertStyleInformational;
-//    self.startAlert.messageText = NSLocalizedString(@"Create a new AssembleIt project", @"Message text in start alert of new aiproj");
-//
-//    NSButton *okButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Next", @"Title of OK button in start alert of new aiproj")];
-//    okButton.keyEquivalent = @"\r";
-//
-//    NSButton *cancelButton = [self.startAlert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Title of cancel button in start alert of new aiproj")];
 }
 
-- (void)handleAIProjectViewStartWindowOkButtonPressedNotification {
-
+- (void)handleAIProjectViewStartViewOkButtonPressedNotification {
+    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
+    [projectViewController dismissViewController:projectViewController.startViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidClose) name:NSWindowDidEndSheetNotification object:nil];
     [self saveDocument:self];
 }
 
-- (void)handleAIProjectViewStartWindowCancelButtonPressedNotification {
-    AIProjectViewController *projectViewController = self.windowControllers[0].contentViewController;
-//    [projectViewController.startWindow modal]
+- (void)handleAIProjectViewStartViewCancelButtonPressedNotification {
+    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
+    [projectViewController dismissViewController:projectViewController.startViewController];
+    [self close];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
