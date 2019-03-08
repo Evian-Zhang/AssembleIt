@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectDocument : NSDocument
 
-@property (nonatomic) NSAlert *startAlert;
-
 @property (nonatomic, getter = isCreated) BOOL created;
 @property (nonatomic, copy) NSDictionary *projectContents;
 

@@ -10,18 +10,14 @@
 
 @implementation AIProjectDocument
 
-@synthesize startAlert = _startAlert;
-
 @synthesize created = _created;
 @synthesize projectContents = _projectContents;
 
+#pragma mark - initializer
 - (instancetype)init {
     if (self = [super init]) {
         self.created = NO;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidAppear) name:@"AIProjectWindowSetUpComplete" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
-        
+        [self initNotifications];
         return self;
     }
     return nil;
@@ -35,21 +31,13 @@
     return nil;
 }
 
-- (void)windowDidAppear {
-    if (self.isCreated) {
-        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-        [projectWindowController displayStartView];
-    }
+- (void)initNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidAppear) name:@"AIProjectWindowSetUpComplete" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
 }
 
-- (void)savePanelDidClose {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:nil];
-    if (!self.fileURL) {
-        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-        [projectWindowController displayStartView];
-    }
-}
-
+#pragma mark - window controller of document
 - (NSString *)windowNibName {
     // Override to return the nib file name of the document.
     // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
@@ -67,19 +55,7 @@
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
-- (void)handleAIProjectViewStartViewOkButtonPressedNotification {
-    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
-    [projectViewController dismissViewController:projectViewController.startViewController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidClose) name:NSWindowDidEndSheetNotification object:nil];
-    [self saveDocument:self];
-}
-
-- (void)handleAIProjectViewStartViewCancelButtonPressedNotification {
-    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
-    [projectViewController dismissViewController:projectViewController.startViewController];
-    [self close];
-}
-
+#pragma mark - write
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return nil.
     // Alternatively, you could remove this method and override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
@@ -93,6 +69,8 @@
     self.created = NO;
     return [super writeToURL:url ofType:typeName error:outError];
 }
+
+#pragma mark - read
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return NO.
@@ -108,8 +86,39 @@
     return YES;
 }
 
+#pragma mark - autosave
+
 + (BOOL)autosavesInPlace {
     return YES;
+}
+
+#pragma mark - open a new document and save
+- (void)windowDidAppear {
+    if (self.isCreated) {
+        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+        [projectWindowController displayStartView];
+    }
+}
+
+- (void)savePanelDidClose {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:nil];
+    if (!self.fileURL) {
+        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+        [projectWindowController displayStartView];
+    }
+}
+
+- (void)handleAIProjectViewStartViewOkButtonPressedNotification {
+    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
+    [projectViewController dismissViewController:projectViewController.startViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidClose) name:NSWindowDidEndSheetNotification object:nil];
+    [self saveDocument:self];
+}
+
+- (void)handleAIProjectViewStartViewCancelButtonPressedNotification {
+    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
+    [projectViewController dismissViewController:projectViewController.startViewController];
+    [self close];
 }
 
 @end
