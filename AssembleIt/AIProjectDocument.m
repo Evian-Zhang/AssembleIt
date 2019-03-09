@@ -10,13 +10,11 @@
 
 @implementation AIProjectDocument
 
-@synthesize created = _created;
 @synthesize projectContents = _projectContents;
 
 #pragma mark - initializer
 - (instancetype)init {
     if (self = [super init]) {
-        self.created = NO;
         self.projectContents = [NSDictionary dictionary];
         [self initNotifications];
         return self;
@@ -26,7 +24,6 @@
 
 - (instancetype)initWithType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
     if (self = [super initWithType:typeName error:outError]) {
-        self.created = YES;
         return self;
     }
     return nil;
@@ -74,15 +71,29 @@
 }
 
 - (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
-    self.created = NO;
-    NSMutableDictionary *projectMutableContents = [self.projectContents mutableCopy];
-    [projectMutableContents setValue:[url absoluteString] forKey:@"AIProjectUrl"];
-    self.projectContents = [projectMutableContents copy];
+    
     return [super writeToURL:url ofType:typeName error:outError];
 }
 
-#pragma mark - read
+- (BOOL)writeSafelyToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation error:(NSError * _Nullable __autoreleasing *)outError {
+    NSMutableDictionary *projectMutableContents = [self.projectContents mutableCopy];
+    [projectMutableContents setValue:[url absoluteString] forKey:@"AIProjectUrl"];
+    self.projectContents = [projectMutableContents copy];
+    return [super writeSafelyToURL:url ofType:typeName forSaveOperation:saveOperation error:outError];
+}
 
+- (void)document:(NSDocument *)doc didSave:(BOOL)didSave contextInfo:(void  *)contextInfo {
+    if (!didSave) {
+        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+        [projectWindowController displayStartView];
+    }
+}
+
+- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    [super saveDocumentWithDelegate:self didSaveSelector:@selector(document:didSave:contextInfo:) contextInfo:contextInfo];
+}
+
+#pragma mark - read
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return NO.
     // Alternatively, you could remove this method and override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
@@ -110,24 +121,15 @@
 
 #pragma mark - open a new document and save
 - (void)windowDidAppear {
-    if (self.isCreated) {
+    if (!self.fileURL) {
         AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
         [projectWindowController displayStartView];
     }
 }
 
-- (void)savePanelDidClose {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:nil];
-//    if (!self.fileURL) {
-//        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-//        [projectWindowController displayStartView];
-//    }
-}
-
 - (void)handleAIProjectViewStartViewOkButtonPressedNotification {
     AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
     [projectViewController dismissViewController:projectViewController.startViewController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidClose) name:NSWindowDidEndSheetNotification object:nil];
     [self saveDocument:self];
 }
 
