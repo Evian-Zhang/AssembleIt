@@ -53,6 +53,21 @@
     // Add any code here that needs to be executed once the windowController has loaded the document's window.
 }
 
+- (void)windowDidAppear {
+    if (self.fileURL) {
+        [self buildWindow];
+    } else {
+        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+        [projectWindowController displayStartView];
+    }
+}
+
+#pragma mark - build window
+- (void)buildWindow {
+    AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+    [projectWindowController buildView];
+}
+
 #pragma mark - write
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return nil.
@@ -83,7 +98,9 @@
 }
 
 - (void)document:(NSDocument *)doc didSave:(BOOL)didSave contextInfo:(void  *)contextInfo {
-    if (!didSave) {
+    if (didSave) {
+        [self buildWindow];
+    } else {
         AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
         [projectWindowController displayStartView];
     }
@@ -114,28 +131,20 @@
 }
 
 #pragma mark - autosave
-
 + (BOOL)autosavesInPlace {
     return YES;
 }
 
 #pragma mark - open a new document and save
-- (void)windowDidAppear {
-    if (!self.fileURL) {
-        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-        [projectWindowController displayStartView];
-    }
-}
-
 - (void)handleAIProjectViewStartViewOkButtonPressedNotification {
-    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
-    [projectViewController dismissViewController:projectViewController.startViewController];
+    AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+    [projectWindowController dismissStartView];
     [self saveDocument:self];
 }
 
 - (void)handleAIProjectViewStartViewCancelButtonPressedNotification {
-    AIProjectViewController *projectViewController = (AIProjectViewController *)self.windowControllers[0].contentViewController;
-    [projectViewController dismissViewController:projectViewController.startViewController];
+    AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+    [projectWindowController dismissStartView];
     [self close];
 }
 

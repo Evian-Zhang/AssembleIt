@@ -25,13 +25,22 @@
     self.contentViewController = self.projectViewController;
 }
 
+- (void)windowDidAppear {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectWindowSetUpComplete" object:nil];
+}
+
 - (void)displayStartView {
     AIProjectStartViewController *startViewController = self.projectViewController.startViewController;
     [self.contentViewController presentViewControllerAsSheet:startViewController];
 }
 
-- (void)windowDidAppear {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectWindowSetUpComplete" object:nil];
+- (void)dismissStartView {
+    AIProjectStartViewController *startViewController = self.projectViewController.startViewController;
+    [self.contentViewController dismissController:startViewController];
+}
+
+- (void)buildView {
+    [self.projectViewController buildView];
 }
 
 @end

@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) AIProjectViewController *projectViewController;
 
 - (void)displayStartView;
+- (void)dismissStartView;
+- (void)buildView;
 
 @end
 

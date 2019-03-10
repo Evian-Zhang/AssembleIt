@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AIProjectViewController">
             <connections>
+                <outlet property="splitView" destination="7KV-tA-zaY" id="z1H-eZ-cFR"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -16,29 +17,15 @@
             <rect key="frame" x="0.0" y="0.0" width="1149" height="756"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LvQ-Rd-CcR">
+                <splitView arrangesAllSubviews="NO" dividerStyle="paneSplitter" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7KV-tA-zaY">
                     <rect key="frame" x="0.0" y="0.0" width="1149" height="756"/>
-                    <subviews>
-                        <customView fixedFrame="YES" id="FFX-c7-fDM">
-                            <rect key="frame" x="0.0" y="0.0" width="276" height="756"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </customView>
-                        <customView fixedFrame="YES" id="Jih-H8-Zml">
-                            <rect key="frame" x="286" y="0.0" width="863" height="756"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </customView>
-                    </subviews>
-                    <holdingPriorities>
-                        <real value="250"/>
-                        <real value="250"/>
-                    </holdingPriorities>
                 </splitView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="LvQ-Rd-CcR" secondAttribute="bottom" id="D5u-Je-ef9"/>
-                <constraint firstItem="LvQ-Rd-CcR" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="FIi-mF-M4T"/>
-                <constraint firstAttribute="trailing" secondItem="LvQ-Rd-CcR" secondAttribute="trailing" id="qoN-pE-vZc"/>
-                <constraint firstItem="LvQ-Rd-CcR" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="wBx-qI-wWC"/>
+                <constraint firstAttribute="trailing" secondItem="7KV-tA-zaY" secondAttribute="trailing" id="FGF-Of-UV5"/>
+                <constraint firstItem="7KV-tA-zaY" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="H8f-Jg-8DN"/>
+                <constraint firstItem="7KV-tA-zaY" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Y42-e6-TFi"/>
+                <constraint firstAttribute="bottom" secondItem="7KV-tA-zaY" secondAttribute="bottom" id="icw-ry-096"/>
             </constraints>
             <point key="canvasLocation" x="205.5" y="-8"/>
         </customView>

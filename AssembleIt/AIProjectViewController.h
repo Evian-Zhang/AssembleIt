@@ -9,14 +9,19 @@
 #import <Cocoa/Cocoa.h>
 
 #import "AIProjectStartViewController.h"
+#import "AINavigatorViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectViewController : NSViewController
 
-@property (nonatomic) AIProjectStartViewController *startViewController;
+@property (nonatomic) IBOutlet NSSplitView *splitView;
 
+@property (nonatomic) AINavigatorViewController *navigatorViewController;
+@property (nonatomic) AIProjectStartViewController *startViewController;
 @property (nonatomic, copy) NSMutableDictionary *projectContents;
+
+- (void)buildView;
 
 @end
 
