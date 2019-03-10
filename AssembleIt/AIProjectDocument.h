@@ -13,8 +13,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AIProjectDocument : NSDocument
+@interface AIProjectDocument : NSDocument <NSOpenSavePanelDelegate>
 
+@property (nonatomic) NSString *projectName;
 @property (nonatomic) NSMutableDictionary *projectContents;
 
 @end

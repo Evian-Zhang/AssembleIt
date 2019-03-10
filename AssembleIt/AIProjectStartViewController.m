@@ -20,17 +20,27 @@
 }
 
 - (void)viewDidAppear {
+    self.projectNameField.delegate = self;
     self.okButton.action = @selector(handleOkButton);
+    self.okButton.enabled = NO;
     self.cancelButton.action = @selector(handleCancelButton);
 }
 
 
 - (void)handleOkButton {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewStartViewOkButtonPressed" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewStartViewOkButtonPressed" object:self userInfo:@{@"AIProjectName":self.projectNameField.stringValue}];
 }
 
 - (void)handleCancelButton {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewStartViewCancelButtonPressed" object:self];
+}
+
+- (void)controlTextDidChange:(NSNotification *)obj {
+    if (self.projectNameField.stringValue.length > 0) {
+        self.okButton.enabled = YES;
+    } else {
+        self.okButton.enabled = NO;
+    }
 }
 
 @end

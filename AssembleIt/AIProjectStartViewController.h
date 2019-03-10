@@ -10,8 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AIProjectStartViewController : NSViewController
+@interface AIProjectStartViewController : NSViewController <NSTextFieldDelegate>
 
+@property (nonatomic) IBOutlet NSTextField *projectNameField;
 @property (nonatomic) IBOutlet NSButton *okButton;
 @property (nonatomic) IBOutlet NSButton *cancelButton;
 

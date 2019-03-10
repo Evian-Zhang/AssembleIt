@@ -10,6 +10,7 @@
 
 @implementation AIProjectDocument
 
+@synthesize projectName = _projectName;
 @synthesize projectContents = _projectContents;
 
 #pragma mark - initializer
@@ -31,7 +32,7 @@
 
 - (void)initNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidAppear) name:@"AIProjectWindowSetUpComplete" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification:) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
 }
 
@@ -95,19 +96,6 @@
     return [super writeSafelyToURL:url ofType:typeName forSaveOperation:saveOperation error:outError];
 }
 
-- (void)document:(NSDocument *)doc didSave:(BOOL)didSave contextInfo:(void  *)contextInfo {
-    if (didSave) {
-        [self buildWindow];
-    } else {
-        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-        [projectWindowController displayStartView];
-    }
-}
-
-- (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
-    [super saveDocumentWithDelegate:self didSaveSelector:@selector(document:didSave:contextInfo:) contextInfo:contextInfo];
-}
-
 #pragma mark - read
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
     // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return NO.
@@ -134,16 +122,67 @@
 }
 
 #pragma mark - open a new document and save
-- (void)handleAIProjectViewStartViewOkButtonPressedNotification {
+- (void)handleAIProjectViewStartViewOkButtonPressedNotification:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    self.projectName = [userInfo valueForKey:@"AIProjectName"];
+    
     AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
     [projectWindowController dismissStartView];
-    [self saveDocument:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startViewDidClose) name:NSWindowDidEndSheetNotification object:nil];
+    NSOpenPanel *createPanel = [NSOpenPanel openPanel];
+    createPanel.prompt = NSLocalizedString(@"Create", @"Button Prompt of create panel");
+    createPanel.delegate = self;
+    createPanel.canChooseFiles = NO;
+    createPanel.canChooseDirectories = YES;
+    [createPanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse result) {
+        switch (result) {
+            case NSModalResponseOK:
+            {
+                NSString *primaryPath = [createPanel.URLs[0] absoluteString];
+                NSString *mainDirectoryPath = [NSString stringWithFormat:@"%@%@/", primaryPath, self.projectName];
+                NSString *projectPath = [NSString stringWithFormat:@"%@%@.aiproj", mainDirectoryPath, self.projectName];
+                NSURL *projectURL = [NSURL URLWithString:projectPath];
+                [self writeSafelyToURL:projectURL ofType:@"com.zhang.evian.aiproj" forSaveOperation:NSSaveAsOperation error:nil];
+                self.fileURL = projectURL;
+                self.fileType = @"com.zhang.evian.aiproj";
+                [self saveDocument:self];
+            }
+                break;
+
+            case NSModalResponseCancel:
+            {
+                
+            }
+                break;
+
+            default:
+                break;
+        }
+    }];
 }
 
 - (void)handleAIProjectViewStartViewCancelButtonPressedNotification {
     AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
     [projectWindowController dismissStartView];
     [self close];
+}
+
+- (void)startViewDidClose {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidEndSheetNotification object:nil];
+    if (self.fileURL) {
+        [self buildWindow];
+    } else {
+        AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+        [projectWindowController displayStartView];
+    }
+}
+
+#pragma mark conform to <NSOpenSavePanelDelegate>
+- (BOOL)panel:(id)sender validateURL:(NSURL *)url error:(NSError * _Nullable __autoreleasing *)outError {
+    NSString *primaryPath = [url absoluteString];
+    NSString *processedPath = [NSString stringWithFormat:@"%@%@/", primaryPath, self.projectName];
+    NSURL *processedURL = [NSURL URLWithString:processedPath];
+    return [[NSFileManager defaultManager] createDirectoryAtURL:processedURL withIntermediateDirectories:NO attributes:nil error:outError];
 }
 
 @end

@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="cancelButton" destination="s6g-Hh-sR9" id="J5n-4B-c91"/>
                 <outlet property="okButton" destination="XpE-Hh-1Tw" id="g65-JK-icp"/>
+                <outlet property="projectNameField" destination="hIR-fn-KfB" id="nk7-CN-vjo"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -39,8 +40,27 @@ Gw
                     </buttonCell>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VbV-0t-1a3">
-                    <rect key="frame" x="217" y="127" width="234" height="17"/>
+                    <rect key="frame" x="217" y="169" width="234" height="17"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" title="You are going to create a new project." id="h2r-Vj-5Gg">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hIR-fn-KfB">
+                    <rect key="frame" x="353" y="124" width="129" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="129" id="Q2O-Jz-FRa"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="3pT-TS-NQV">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xce-lM-yyx">
+                    <rect key="frame" x="205" y="127" width="131" height="17"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Pick a project name:" id="gHa-0e-4st">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -51,9 +71,13 @@ Gw
                 <constraint firstAttribute="trailing" secondItem="XpE-Hh-1Tw" secondAttribute="trailing" constant="20" symbolic="YES" id="6wY-l4-y9p"/>
                 <constraint firstItem="s6g-Hh-sR9" firstAttribute="baseline" secondItem="XpE-Hh-1Tw" secondAttribute="baseline" id="8TC-rv-xJx"/>
                 <constraint firstItem="s6g-Hh-sR9" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" symbolic="YES" id="Fd2-GA-dRx"/>
-                <constraint firstItem="VbV-0t-1a3" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="QdE-MS-ccP"/>
-                <constraint firstItem="VbV-0t-1a3" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="U89-5V-jYB"/>
+                <constraint firstItem="hIR-fn-KfB" firstAttribute="leading" secondItem="xce-lM-yyx" secondAttribute="trailing" constant="19" id="G5U-py-DLm"/>
+                <constraint firstItem="hIR-fn-KfB" firstAttribute="top" secondItem="VbV-0t-1a3" secondAttribute="bottom" constant="23" id="O6u-RH-fRe"/>
                 <constraint firstAttribute="bottom" secondItem="s6g-Hh-sR9" secondAttribute="bottom" constant="20" symbolic="YES" id="UXW-Gl-QGS"/>
+                <constraint firstItem="xce-lM-yyx" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="a7R-Hy-ycN"/>
+                <constraint firstItem="xce-lM-yyx" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="207" id="f9a-y3-wyc"/>
+                <constraint firstItem="xce-lM-yyx" firstAttribute="baseline" secondItem="hIR-fn-KfB" secondAttribute="baseline" id="oLx-2n-bF1"/>
+                <constraint firstItem="VbV-0t-1a3" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="uWi-YE-cCy"/>
             </constraints>
             <point key="canvasLocation" x="171.5" y="154"/>
         </customView>
