@@ -20,6 +20,7 @@ typedef enum AISplitViewIndex {
 @implementation AIProjectViewController
 
 @synthesize navigatorViewController = _navigatorViewController;
+@synthesize codeViewController = _codeViewController;
 @synthesize startViewController = _startViewController;
 @synthesize projectContents = _projectContents;
 
@@ -33,9 +34,16 @@ typedef enum AISplitViewIndex {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewDidAppear" object:self];
 }
 
-- (void)buildView {
+- (void)buildViewWithProjectContents:(NSDictionary *)projectContents {
     self.navigatorViewController = [[AINavigatorViewController alloc] initWithNibName:@"AINavigatorViewController" bundle:nil];
+    self.navigatorViewController.projectURL = [projectContents valueForKey:@"AIProjectURL"];
+    self.navigatorViewController.fileURLs = [projectContents valueForKey:@"AIFileURLs"];
     [self.splitView addArrangedSubview:self.navigatorViewController.view];
+    
+    
+    self.codeViewController = [[AICodeViewController2 alloc] initWithNibName:@"AICodeViewController2" bundle:nil];
+    self.codeViewController.content = [NSString string];
+    [self.splitView addArrangedSubview:self.codeViewController.view];
 }
 
 @end

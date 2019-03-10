@@ -10,7 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AINavigatorViewController : NSViewController
+@interface AINavigatorViewController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
+
+@property (nonatomic) IBOutlet NSOutlineView *outlineView;
+
+@property (nonatomic) NSString *projectURL;
+@property (nonatomic) NSArray *fileURLs;
 
 @end
 

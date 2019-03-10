@@ -19,6 +19,7 @@
 		56807975222C2D33000DA9BA /* AIRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56807974222C2D33000DA9BA /* AIRulerView.m */; };
 		56B85EF6222CBAA800CE3AE6 /* AIProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B85EF4222CBAA800CE3AE6 /* AIProjectViewController.m */; };
 		56B85EF7222CBAA800CE3AE6 /* AIProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56B85EF5222CBAA800CE3AE6 /* AIProjectViewController.xib */; };
+		56ED6C902234D3480054385C /* AIFileNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 56ED6C8F2234D3480054385C /* AIFileNode.m */; };
 		56F5950C222B781D006C5C8F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F5950B222B781D006C5C8F /* AppDelegate.m */; };
 		56F5950F222B781D006C5C8F /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F5950E222B781D006C5C8F /* Document.m */; };
 		56F59512222B781D006C5C8F /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56F59510222B781D006C5C8F /* Document.xib */; };
@@ -49,6 +50,8 @@
 		56B85EF3222CBAA800CE3AE6 /* AIProjectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIProjectViewController.h; sourceTree = "<group>"; };
 		56B85EF4222CBAA800CE3AE6 /* AIProjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIProjectViewController.m; sourceTree = "<group>"; };
 		56B85EF5222CBAA800CE3AE6 /* AIProjectViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AIProjectViewController.xib; sourceTree = "<group>"; };
+		56ED6C8E2234D3480054385C /* AIFileNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIFileNode.h; sourceTree = "<group>"; };
+		56ED6C8F2234D3480054385C /* AIFileNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIFileNode.m; sourceTree = "<group>"; };
 		56F59507222B781D006C5C8F /* AssembleIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssembleIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		56F5950A222B781D006C5C8F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		56F5950B222B781D006C5C8F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 				562D923822318EED00201986 /* AIProjectStartViewController.m */,
 				564B3319223389AB003B4A65 /* AINavigatorViewController.h */,
 				564B331A223389AB003B4A65 /* AINavigatorViewController.m */,
+				56ED6C8E2234D3480054385C /* AIFileNode.h */,
+				56ED6C8F2234D3480054385C /* AIFileNode.m */,
 				56F59522222B7DAC006C5C8F /* AICodeViewController.h */,
 				56F59523222B7DAC006C5C8F /* AICodeViewController.m */,
 				5680796E222C10C0000DA9BA /* AICodeViewController2.h */,
@@ -228,6 +233,7 @@
 				564A4ECA222D7C4500F8D08B /* AIProjectDocument.m in Sources */,
 				56F5950C222B781D006C5C8F /* AppDelegate.m in Sources */,
 				562D923A22318EED00201986 /* AIProjectStartViewController.m in Sources */,
+				56ED6C902234D3480054385C /* AIFileNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

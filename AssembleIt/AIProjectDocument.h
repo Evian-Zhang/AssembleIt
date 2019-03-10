@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectDocument : NSDocument
 
-@property (nonatomic, copy) NSDictionary *projectContents;
+@property (nonatomic) NSMutableDictionary *projectContents;
 
 @end
 

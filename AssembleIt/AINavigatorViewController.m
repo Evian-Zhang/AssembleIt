@@ -14,9 +14,16 @@
 
 @implementation AINavigatorViewController
 
+@synthesize projectURL = _projectURL;
+@synthesize fileURLs = _fileURLs;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do view setup here.
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    return YES;
 }
 
 @end

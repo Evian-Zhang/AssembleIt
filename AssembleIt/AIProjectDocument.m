@@ -15,7 +15,7 @@
 #pragma mark - initializer
 - (instancetype)init {
     if (self = [super init]) {
-        self.projectContents = [NSDictionary dictionary];
+        self.projectContents = [NSMutableDictionary dictionary];
         [self initNotifications];
         return self;
     }
@@ -65,7 +65,7 @@
 #pragma mark - build window
 - (void)buildWindow {
     AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-    [projectWindowController buildView];
+    [projectWindowController buildViewWithProjectContents:self.projectContents];
 }
 
 #pragma mark - write
@@ -91,9 +91,7 @@
 }
 
 - (BOOL)writeSafelyToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation error:(NSError * _Nullable __autoreleasing *)outError {
-    NSMutableDictionary *projectMutableContents = [self.projectContents mutableCopy];
-    [projectMutableContents setValue:[url absoluteString] forKey:@"AIProjectUrl"];
-    self.projectContents = [projectMutableContents copy];
+    [self.projectContents setValue:[url absoluteString] forKey:@"AIProjectURL"];
     return [super writeSafelyToURL:url ofType:typeName forSaveOperation:saveOperation error:outError];
 }
 
@@ -118,7 +116,7 @@
     //self.projectContents = [NSDictionary propertyList];
     NSError *error;
     NSPropertyListFormat propertyListFormat = NSPropertyListXMLFormat_v1_0;
-    self.projectContents = (NSDictionary *)[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:&propertyListFormat error:&error];
+    self.projectContents = (NSMutableDictionary *)[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:&propertyListFormat error:&error];
     if (error) {
         NSLog(@"%@", error);
     }
@@ -126,7 +124,7 @@
 }
 
 -  (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
-    self.projectContents = [NSDictionary dictionaryWithContentsOfURL:url];
+    self.projectContents = [NSMutableDictionary dictionaryWithContentsOfURL:url];
     return YES;
 }
 

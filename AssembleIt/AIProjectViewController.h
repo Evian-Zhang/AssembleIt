@@ -10,6 +10,7 @@
 
 #import "AIProjectStartViewController.h"
 #import "AINavigatorViewController.h"
+#import "AICodeViewController2.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,10 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) IBOutlet NSSplitView *splitView;
 
 @property (nonatomic) AINavigatorViewController *navigatorViewController;
+@property (nonatomic) AICodeViewController2 *codeViewController;
 @property (nonatomic) AIProjectStartViewController *startViewController;
 @property (nonatomic, copy) NSMutableDictionary *projectContents;
 
-- (void)buildView;
+- (void)buildViewWithProjectContents:(NSDictionary *)projectContents;
 
 @end
 

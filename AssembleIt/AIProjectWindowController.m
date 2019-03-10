@@ -36,11 +36,11 @@
 
 - (void)dismissStartView {
     AIProjectStartViewController *startViewController = self.projectViewController.startViewController;
-    [self.contentViewController dismissController:startViewController];
+    [self.contentViewController dismissViewController:startViewController];
 }
 
-- (void)buildView {
-    [self.projectViewController buildView];
+- (void)buildViewWithProjectContents:(NSDictionary *)projectContents {
+    [self.projectViewController buildViewWithProjectContents:projectContents];
 }
 
 @end
