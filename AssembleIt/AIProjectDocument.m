@@ -152,7 +152,7 @@
                 NSString *projectPath = [NSString stringWithFormat:@"%@%@.aiproj", mainDirectoryPath, self.projectName];
                 NSURL *projectURL = [NSURL URLWithString:projectPath];
                 
-                [self appendProjectNodeWithURL:projectURL];
+                [self appendProjectNodeWithURL:projectURL andMainDirectoryURL:[NSURL URLWithString:mainDirectoryPath]];
                 
                 NSError *error;
                 [self writeSafelyToURL:projectURL ofType:@"com.zhang.evian.aiproj" forSaveOperation:NSSaveAsOperation error:&error];
@@ -194,7 +194,7 @@
     }
 }
 
-- (void)appendProjectNodeWithURL:(NSURL *)projectUrl {
+- (void)appendProjectNodeWithURL:(NSURL *)projectUrl andMainDirectoryURL:(NSURL *)mainDirectoryUrl {
     NSException *fileTreeEmptyException = [[NSException alloc] initWithName:@"AIFileTreeEmptyError" reason:@"fileTree == nil" userInfo:nil];
     NSException *fileURLsEmptyException = [[NSException alloc] initWithName:@"AIFileURLsEmptyError" reason:@"fileURLs == nil" userInfo:nil];
     @try {
@@ -210,11 +210,31 @@
         root.children = [NSMutableArray<AIFileNode *> array];
         [root.children addObject:projectNode];
         
-        NSMutableArray<NSURL *> *fileURLs = [self.projectContents valueForKey:@"AIFileURLs"];
-        if (!fileURLs) {
+        NSURL *srcURL = [mainDirectoryUrl URLByAppendingPathComponent:@"src/" isDirectory:YES];
+        [[NSFileManager defaultManager] createDirectoryAtURL:srcURL  withIntermediateDirectories:NO attributes:nil error:nil];
+        AIFileNode *srcNode = [[AIFileNode alloc] init];
+        srcNode.nodeURL = srcURL;
+        srcNode.parent = root;
+        srcNode.fileNodeType = AIFileNodeFolderType;
+        srcNode.leaf = NO;
+        [root.children addObject:srcNode];
+        
+        NSURL *productURL = [mainDirectoryUrl URLByAppendingPathComponent:@"product/" isDirectory:YES];
+        [[NSFileManager defaultManager] createDirectoryAtURL:productURL withIntermediateDirectories:NO attributes:nil error:nil];
+        AIFileNode *productNode = [[AIFileNode alloc] init];
+        productNode.nodeURL = productURL;
+        productNode.parent = root;
+        productNode.fileNodeType = AIFileNodeFolderType;
+        productNode.leaf = NO;
+        [root.children addObject:productNode];
+        
+        NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
+        if (!fileNodes) {
             @throw(fileURLsEmptyException);
         }
-        [fileURLs addObject:projectUrl];
+        [fileNodes addObject:projectNode];
+        [fileNodes addObject:srcNode];
+        [fileNodes addObject:productNode];
     }
     @catch (NSException *exception) {
         NSLog(@"%@\nReason:%@", exception.name, exception.reason);
@@ -235,9 +255,9 @@
         root.fileNodeType = AIFileNodeFolderType;
         [self.projectContents setObject:root forKey:@"AIFileTree"];
         
-        NSMutableArray<NSURL *> *fileURLs = [NSMutableArray<NSURL *> array];
-        [fileURLs addObject:processedURL];
-        [self.projectContents setObject:fileURLs forKey:@"AIFileURLs"];
+        NSMutableArray<AIFileNode *> *fileNodes = [NSMutableArray<AIFileNode *> array];
+        [fileNodes addObject:root];
+        [self.projectContents setObject:fileNodes forKey:@"AIFileNodes"];
     }
     return hasCreatedDirectory;
 }

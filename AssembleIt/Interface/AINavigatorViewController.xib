@@ -7,6 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AINavigatorViewController">
             <connections>
+                <outlet property="contextualMenu" destination="Kt7-Ca-wJV" id="pxY-aj-191"/>
+                <outlet property="createFileItem" destination="EGp-ER-b6q" id="uZD-FO-O3P"/>
                 <outlet property="outlineView" destination="o9F-Tu-p5B" id="cED-4K-c2v"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -68,6 +70,9 @@
                                         </prototypeCellViews>
                                     </tableColumn>
                                 </tableColumns>
+                                <connections>
+                                    <outlet property="menu" destination="Kt7-Ca-wJV" id="s4x-Mb-IJN"/>
+                                </connections>
                             </outlineView>
                         </subviews>
                     </clipView>
@@ -89,5 +94,11 @@
             </constraints>
             <point key="canvasLocation" x="57.5" y="300.5"/>
         </customView>
+        <menu id="Kt7-Ca-wJV">
+            <items>
+                <menuItem title="New File..." keyEquivalent="n" id="EGp-ER-b6q"/>
+            </items>
+            <point key="canvasLocation" x="155" y="-190"/>
+        </menu>
     </objects>
 </document>
