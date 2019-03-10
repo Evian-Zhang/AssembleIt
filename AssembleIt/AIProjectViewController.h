@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) AIProjectStartViewController *startViewController;
 @property (nonatomic, copy) NSMutableDictionary *projectContents;
 
-- (void)buildViewWithProjectContents:(NSDictionary *)projectContents;
+- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents;
 
 @end
 

@@ -74,7 +74,7 @@
     // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error if you return nil.
     // Alternatively, you could remove this method and override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
     NSError *error;
-    NSData *data = [NSPropertyListSerialization dataWithPropertyList:self.projectContents format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+    NSData *data = [self dataWithDictionary:self.projectContents];
     
     if (error) {
         NSLog(@"%@", error);
@@ -92,8 +92,17 @@
 }
 
 - (BOOL)writeSafelyToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation error:(NSError * _Nullable __autoreleasing *)outError {
-    [self.projectContents setValue:[url absoluteString] forKey:@"AIProjectURL"];
+    
     return [super writeSafelyToURL:url ofType:typeName forSaveOperation:saveOperation error:outError];
+}
+
+- (NSData *)dataWithDictionary:(NSDictionary *)dictionary {
+    NSError *error;
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dictionary requiringSecureCoding:YES error:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
+    return data;
 }
 
 #pragma mark - read
@@ -102,18 +111,18 @@
     // Alternatively, you could remove this method and override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
     // If you do, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
     //self.projectContents = [NSDictionary propertyList];
-    NSError *error;
-    NSPropertyListFormat propertyListFormat = NSPropertyListXMLFormat_v1_0;
-    self.projectContents = (NSMutableDictionary *)[NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:&propertyListFormat error:&error];
-    if (error) {
-        NSLog(@"%@", error);
-    }
+    self.projectContents = [self dictionaryWithData:data];
     return YES;
 }
 
--  (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError * _Nullable __autoreleasing *)outError {
-    self.projectContents = [NSMutableDictionary dictionaryWithContentsOfURL:url];
-    return YES;
+- (NSMutableDictionary *)dictionaryWithData:(NSData *)data {
+    NSSet *unarchivedClasses = [NSSet setWithObjects:[NSDictionary class], [AIFileNode class], [NSURL class], [NSMutableArray class], nil];
+    NSError *error;
+    NSDictionary *dictionary = [NSKeyedUnarchiver unarchivedObjectOfClasses:unarchivedClasses fromData:data error:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
+    return [dictionary mutableCopy];
 }
 
 #pragma mark - autosave
@@ -142,7 +151,15 @@
                 NSString *mainDirectoryPath = [NSString stringWithFormat:@"%@%@/", primaryPath, self.projectName];
                 NSString *projectPath = [NSString stringWithFormat:@"%@%@.aiproj", mainDirectoryPath, self.projectName];
                 NSURL *projectURL = [NSURL URLWithString:projectPath];
-                [self writeSafelyToURL:projectURL ofType:@"com.zhang.evian.aiproj" forSaveOperation:NSSaveAsOperation error:nil];
+                
+                [self appendProjectNodeWithURL:projectURL];
+                
+                NSError *error;
+                [self writeSafelyToURL:projectURL ofType:@"com.zhang.evian.aiproj" forSaveOperation:NSSaveAsOperation error:&error];
+                if (error) {
+                    NSLog(@"%@", error);
+                }
+                
                 self.fileURL = projectURL;
                 self.fileType = @"com.zhang.evian.aiproj";
                 [self saveDocument:self];
@@ -177,12 +194,52 @@
     }
 }
 
+- (void)appendProjectNodeWithURL:(NSURL *)projectUrl {
+    NSException *fileTreeEmptyException = [[NSException alloc] initWithName:@"AIFileTreeEmptyError" reason:@"fileTree == nil" userInfo:nil];
+    NSException *fileURLsEmptyException = [[NSException alloc] initWithName:@"AIFileURLsEmptyError" reason:@"fileURLs == nil" userInfo:nil];
+    @try {
+        AIFileNode *root = [self.projectContents valueForKey:@"AIFileTree"];
+        if (!root) {
+            @throw(fileTreeEmptyException);
+        }
+        AIFileNode *projectNode = [[AIFileNode alloc] init];
+        projectNode.nodeURL = projectUrl;
+        projectNode.parent = root;
+        projectNode.leaf = YES;
+        projectNode.fileNodeType = AIFileNodeProjectType;
+        root.children = [NSMutableArray<AIFileNode *> array];
+        [root.children addObject:projectNode];
+        
+        NSMutableArray<NSURL *> *fileURLs = [self.projectContents valueForKey:@"AIFileURLs"];
+        if (!fileURLs) {
+            @throw(fileURLsEmptyException);
+        }
+        [fileURLs addObject:projectUrl];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@\nReason:%@", exception.name, exception.reason);
+    }
+}
+
 #pragma mark conform to <NSOpenSavePanelDelegate>
 - (BOOL)panel:(id)sender validateURL:(NSURL *)url error:(NSError * _Nullable __autoreleasing *)outError {
     NSString *primaryPath = [url absoluteString];
     NSString *processedPath = [NSString stringWithFormat:@"%@%@/", primaryPath, self.projectName];
     NSURL *processedURL = [NSURL URLWithString:processedPath];
-    return [[NSFileManager defaultManager] createDirectoryAtURL:processedURL withIntermediateDirectories:NO attributes:nil error:outError];
+    BOOL hasCreatedDirectory = [[NSFileManager defaultManager] createDirectoryAtURL:processedURL withIntermediateDirectories:NO attributes:nil error:outError];
+    if (hasCreatedDirectory) {
+        AIFileNode *root = [[AIFileNode alloc] init];
+        root.nodeURL = processedURL;
+        root.parent = nil;
+        root.leaf = NO;
+        root.fileNodeType = AIFileNodeFolderType;
+        [self.projectContents setObject:root forKey:@"AIFileTree"];
+        
+        NSMutableArray<NSURL *> *fileURLs = [NSMutableArray<NSURL *> array];
+        [fileURLs addObject:processedURL];
+        [self.projectContents setObject:fileURLs forKey:@"AIFileURLs"];
+    }
+    return hasCreatedDirectory;
 }
 
 @end

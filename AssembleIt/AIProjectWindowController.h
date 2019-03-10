@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)displayStartView;
 - (void)dismissStartView;
-- (void)buildViewWithProjectContents:(NSDictionary *)projectContents;
+- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents;
 
 @end
 

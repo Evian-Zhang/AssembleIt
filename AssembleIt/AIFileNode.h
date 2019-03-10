@@ -12,9 +12,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AIFileNode : NSObject <NSSecureCoding>
 
-@property (nonatomic) NSURL *rootURL;
-@property (nonatomic) NSMutableArray<AIFileNode *> *children;
+typedef enum {
+    AIFileNodeProjectType,
+    AIFileNodeFolderType,
+    AIFileNodeASMType
+} AIFileNodeType;
+
+@property (nonatomic) NSURL *nodeURL;
+@property (nonatomic, readonly) NSString *fileName;
+@property (nonatomic, nullable) AIFileNode *parent;
+@property (nonatomic, nullable) NSMutableArray<AIFileNode *> *children;
 @property (nonatomic, getter = isLeaf) BOOL leaf;
+@property (nonatomic) AIFileNodeType fileNodeType;
 
 @end
 

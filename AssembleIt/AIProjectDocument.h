@@ -10,13 +10,14 @@
 
 #import "AIProjectViewController.h"
 #import "AIProjectWindowController.h"
+#import "AIFileNode.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectDocument : NSDocument <NSOpenSavePanelDelegate>
 
 @property (nonatomic) NSString *projectName;
-@property (nonatomic) NSMutableDictionary *projectContents;
+@property (nonatomic, strong) NSMutableDictionary *projectContents;
 
 @end
 

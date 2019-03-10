@@ -39,7 +39,7 @@
     [self.contentViewController dismissViewController:startViewController];
 }
 
-- (void)buildViewWithProjectContents:(NSDictionary *)projectContents {
+- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents {
     [self.projectViewController buildViewWithProjectContents:projectContents];
 }
 

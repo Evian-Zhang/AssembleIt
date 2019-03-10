@@ -34,9 +34,9 @@ typedef enum AISplitViewIndex {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AIProjectViewDidAppear" object:self];
 }
 
-- (void)buildViewWithProjectContents:(NSDictionary *)projectContents {
+- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents {
     self.navigatorViewController = [[AINavigatorViewController alloc] initWithNibName:@"AINavigatorViewController" bundle:nil];
-    self.navigatorViewController.projectURL = [projectContents valueForKey:@"AIProjectURL"];
+    self.navigatorViewController.root = [projectContents valueForKey:@"AIFileTree"];
     self.navigatorViewController.fileURLs = [projectContents valueForKey:@"AIFileURLs"];
     [self.splitView addArrangedSubview:self.navigatorViewController.view];
     
