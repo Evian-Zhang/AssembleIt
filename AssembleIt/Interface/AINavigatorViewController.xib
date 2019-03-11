@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AINavigatorViewController">
             <connections>
+                <outlet property="addFilesItem" destination="rDI-5k-f8q" id="bmF-UY-ha4"/>
                 <outlet property="contextualMenu" destination="Kt7-Ca-wJV" id="pxY-aj-191"/>
                 <outlet property="createFileItem" destination="EGp-ER-b6q" id="uZD-FO-O3P"/>
                 <outlet property="outlineView" destination="o9F-Tu-p5B" id="cED-4K-c2v"/>
@@ -96,7 +97,12 @@
         </customView>
         <menu id="Kt7-Ca-wJV">
             <items>
-                <menuItem title="New File..." keyEquivalent="n" id="EGp-ER-b6q"/>
+                <menuItem title="New File..." id="EGp-ER-b6q">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Add Files..." id="rDI-5k-f8q">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
             </items>
             <point key="canvasLocation" x="155" y="-190"/>
         </menu>

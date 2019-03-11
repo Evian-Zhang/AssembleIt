@@ -39,6 +39,7 @@ typedef enum AISplitViewIndex {
     self.navigatorViewController = [[AINavigatorViewController alloc] initWithNibName:@"AINavigatorViewController" bundle:nil];
     self.navigatorViewController.root = [projectContents valueForKey:@"AIFileTree"];
     self.navigatorViewController.fileNodes = [projectContents valueForKey:@"AIFileNodes"];
+    self.navigatorViewController.projectNode = [projectContents valueForKey:@"AIProjectNode"];
     [self.splitView addArrangedSubview:self.navigatorViewController.view];
     
     
@@ -58,8 +59,9 @@ typedef enum AISplitViewIndex {
         {
             NSError *error;
             self.codeViewController.content = [NSString stringWithContentsOfURL:currentFileNode.nodeURL encoding:NSUTF8StringEncoding error:&error];
-            [self.splitView removeArrangedSubview:self.splitView.arrangedSubviews[CODEVIEW]];
-            [self.splitView insertArrangedSubview:self.codeViewController.view atIndex:CODEVIEW];
+            [self.codeViewController.view setFrame:self.splitView.subviews[CODEVIEW].frame];
+            [self.splitView replaceSubview:self.splitView.subviews[CODEVIEW] with:self.codeViewController.view];
+            [self.codeViewController updateContent];
             if (error) {
                 NSLog(@"%@", error);
             }

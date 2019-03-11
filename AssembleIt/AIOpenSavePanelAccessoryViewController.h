@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSMutableArray<AIFileNode *> *folders;
 @property (nonatomic) AIFileNode *currentFolder;
+@property (nonatomic) AIFileNode *directoryNode;
 
 @end
 

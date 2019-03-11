@@ -22,10 +22,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (self.content && self.content.length > 0) {
-        self.codeView.string = self.content;
-    }
-    
     AIRulerView *rulerView = [[AIRulerView alloc] initWithScrollView:self.scrollView orientation:NSVerticalRuler];
     rulerView.clientView = self.codeView;
     rulerView.backgroundColor = self.codeView.backgroundColor;
@@ -33,6 +29,18 @@
     self.scrollView.verticalRulerView = rulerView;
     self.scrollView.rulersVisible = YES;
     // Do view setup here.
+}
+
+- (void)viewDidAppear {
+    if (self.content && self.content.length > 0) {
+        self.codeView.string = self.content;
+    }
+}
+
+- (void)updateContent {
+    if (self.content && self.content.length > 0) {
+        self.codeView.string = self.content;
+    }
 }
 
 @end

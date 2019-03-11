@@ -17,10 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) IBOutlet NSOutlineView *outlineView;
 @property (nonatomic) IBOutlet NSMenu *contextualMenu;
 @property (nonatomic) IBOutlet NSMenuItem *createFileItem;
+@property (nonatomic) IBOutlet NSMenuItem *addFilesItem;
 
 @property (nonatomic) AIFileNode *root;
 @property (nonatomic) AIFileNode *currentFileNode;
 @property (nonatomic) NSMutableArray<AIFileNode *> *fileNodes;
+@property (nonatomic) AIFileNode *projectNode;
 
 - (void)changeCurrentFileNodeTo:(AIFileNode *)fileNode;
 

@@ -17,8 +17,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectDocument : NSDocument <NSOpenSavePanelDelegate>
 
+typedef enum AIPanelStatus {
+    AICreatePanelStatus,
+    AIOpenPanelStatus
+} AIPanelStatus;
+
+@property (nonatomic) AIOpenSavePanelAccessoryViewController *accessoryViewController;
 @property (nonatomic) NSString *projectName;
 @property (nonatomic, strong) NSMutableDictionary *projectContents;
+@property (nonatomic) AIPanelStatus panelStatus;
 
 @end
 

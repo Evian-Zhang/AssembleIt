@@ -15,6 +15,8 @@
 @implementation AIOpenSavePanelAccessoryViewController
 
 @synthesize folders = _folders;
+@synthesize currentFolder = _currentFolder;
+@synthesize directoryNode = _directoryNode;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,12 +27,17 @@
 
 - (void)viewDidAppear {
     [self.folderChooseButton.menu removeAllItems];
+    NSMenuItem *directoryMenuItem;
     for (AIFileNode *folderNode in self.folders) {
         NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:folderNode.fileName action:nil keyEquivalent:@""];
         menuItem.representedObject = folderNode;
+        if (folderNode == self.directoryNode) {
+            directoryMenuItem = menuItem;
+        }
         [self.folderChooseButton.menu addItem:menuItem];
     }
-    self.currentFolder = self.folderChooseButton.itemArray[0].representedObject;
+    [self.folderChooseButton selectItem:directoryMenuItem];
+    self.currentFolder = self.directoryNode;
 }
 
 - (void)handleFolderChooseButton:(id)sender {

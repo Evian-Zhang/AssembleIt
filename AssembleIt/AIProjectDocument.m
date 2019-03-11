@@ -10,8 +10,10 @@
 
 @implementation AIProjectDocument
 
+@synthesize accessoryViewController = _accessoryViewController;
 @synthesize projectName = _projectName;
 @synthesize projectContents = _projectContents;
+@synthesize panelStatus = _panelStatus;
 
 #pragma mark - initializer
 - (instancetype)init {
@@ -35,6 +37,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification:) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCreateFileForNodeNotification:) name:@"AICreateFileForNode" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAddFilesForNodeNotification:) name:@"AIAddFilesForNode" object:nil];
 }
 
 #pragma mark - window controller of document
@@ -147,7 +150,9 @@
         AIFileNode *root = [userInfo valueForKey:@"root"];
         savePanel.directoryURL = root.nodeURL;
     }
-    AIOpenSavePanelAccessoryViewController *accessoryViewController = [[AIOpenSavePanelAccessoryViewController alloc] initWithNibName:@"AIOpenSavePanelAccessoryViewController" bundle:nil];
+    if (!self.accessoryViewController) {
+        self.accessoryViewController = [[AIOpenSavePanelAccessoryViewController alloc] initWithNibName:@"AIOpenSavePanelAccessoryViewController" bundle:nil];
+    }
     NSMutableArray<AIFileNode *> *folders = [NSMutableArray<AIFileNode *> array];
     NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
     for (AIFileNode *tmpFileNode in fileNodes) {
@@ -155,17 +160,19 @@
             [folders addObject:tmpFileNode];
         }
     }
-    accessoryViewController.folders = folders;
-    savePanel.accessoryView = accessoryViewController.view;
+    self.accessoryViewController.folders = folders;
+    self.accessoryViewController.directoryNode = [self.projectContents valueForKey:@"AISrcNode"];
+    savePanel.accessoryView = self.accessoryViewController.view;
     [savePanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse result) {
         switch (result) {
             case NSModalResponseOK:
             {
                 [[NSFileManager defaultManager] createFileAtPath:savePanel.URL.path contents:nil attributes:nil];
-                AIFileNode *fileNode = [AIFileNode fileNodeWIthURL:savePanel.URL fileNodeType:AIFileNodeASMType toParentNode:accessoryViewController.currentFolder isLeaf:YES];
+                AIFileNode *fileNode = [AIFileNode fileNodeWIthURL:savePanel.URL fileNodeType:AIFileNodeASMType toParentNode:self.accessoryViewController.currentFolder isLeaf:YES];
                 [fileNodes addObject:fileNode];
                 AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
                 [projectWindowController.projectViewController.navigatorViewController changeCurrentFileNodeTo:fileNode];
+                [self updateChangeCount:NSChangeDone];
             }
                 break;
                 
@@ -181,6 +188,66 @@
     }];
 }
 
+#pragma mark - add new files
+- (void)handleAddFilesForNodeNotification:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    AIFileNode *fileNode = [userInfo valueForKey:@"fileNode"];
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.allowedFileTypes = @[@"asm"];
+    openPanel.allowsOtherFileTypes = NO;
+    openPanel.canChooseDirectories = YES;
+    AIFileNode *directoryNode;
+    if (fileNode.fileNodeType == AIFileNodeFolderType) {
+        directoryNode = fileNode;
+    } else {
+        directoryNode = fileNode.parent;
+        if (!directoryNode) {
+            directoryNode = (AIFileNode *)[self.projectContents valueForKey:@"AIFileTree"];
+        }
+    }
+    if (!self.accessoryViewController) {
+        self.accessoryViewController = [[AIOpenSavePanelAccessoryViewController alloc] initWithNibName:@"AIOpenSavePanelAccessoryViewController" bundle:nil];
+    }
+    NSMutableArray<AIFileNode *> *folders = [NSMutableArray<AIFileNode *> array];
+    NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
+    for (AIFileNode *tmpFileNode in fileNodes) {
+        if (tmpFileNode.fileNodeType == AIFileNodeFolderType) {
+            [folders addObject:tmpFileNode];
+        }
+    }
+    self.accessoryViewController.folders = folders;
+    self.accessoryViewController.directoryNode = directoryNode;
+    openPanel.accessoryView = self.accessoryViewController.view;
+    openPanel.accessoryViewDisclosed = YES;
+    openPanel.delegate = self;
+    self.panelStatus = AIOpenPanelStatus;
+    [openPanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse result) {
+        switch (result) {
+            case NSModalResponseOK:
+            {
+                for (NSURL *url in openPanel.URLs) {
+                    AIFileNodeType fileNodeType = AIFileNodeASMType;
+                    BOOL isDirectory;
+                    [[NSFileManager defaultManager] fileExistsAtPath:url.path isDirectory:&isDirectory];
+                    if (isDirectory) {
+                        fileNodeType = AIFileNodeFolderType;
+                    }
+                    AIFileNode *addedFileNode = [AIFileNode fileNodeWIthURL:url fileNodeType:fileNodeType toParentNode:self.accessoryViewController.currentFolder isLeaf:!isDirectory];
+                    [fileNodes addObject:addedFileNode];
+                    AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+                    [projectWindowController.projectViewController.navigatorViewController.outlineView reloadData];
+                    [self updateChangeCount:NSChangeDone];
+                }
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }];
+    
+}
+
 #pragma mark - open a new document and save
 - (void)handleAIProjectViewStartViewOkButtonPressedNotification:(NSNotification *)aNotification {
     NSDictionary *userInfo = aNotification.userInfo;
@@ -194,6 +261,7 @@
     createPanel.delegate = self;
     createPanel.canChooseFiles = NO;
     createPanel.canChooseDirectories = YES;
+    self.panelStatus = AICreatePanelStatus;
     [createPanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse result) {
         switch (result) {
             case NSModalResponseOK:
@@ -203,7 +271,7 @@
                 NSString *projectPath = [NSString stringWithFormat:@"%@%@.aiproj", mainDirectoryPath, self.projectName];
                 NSURL *projectURL = [NSURL URLWithString:projectPath];
                 
-                [self appendProjectNodeWithURL:projectURL andMainDirectoryURL:[NSURL URLWithString:mainDirectoryPath]];
+                [self appendProjectNodeWithURL:projectURL andSrcNodeAndProductNodeAndMainDirectoryURL:[NSURL URLWithString:mainDirectoryPath]];
                 
                 NSError *error;
                 [self writeSafelyToURL:projectURL ofType:@"com.zhang.evian.aiproj" forSaveOperation:NSSaveAsOperation error:&error];
@@ -245,7 +313,7 @@
     }
 }
 
-- (void)appendProjectNodeWithURL:(NSURL *)projectUrl andMainDirectoryURL:(NSURL *)mainDirectoryUrl {
+- (void)appendProjectNodeWithURL:(NSURL *)projectUrl andSrcNodeAndProductNodeAndMainDirectoryURL:(NSURL *)mainDirectoryUrl {
     NSException *fileTreeEmptyException = [[NSException alloc] initWithName:@"AIFileTreeEmptyError" reason:@"fileTree == nil" userInfo:nil];
     NSException *fileURLsEmptyException = [[NSException alloc] initWithName:@"AIFileURLsEmptyError" reason:@"fileURLs == nil" userInfo:nil];
     @try {
@@ -260,6 +328,7 @@
         projectNode.fileNodeType = AIFileNodeProjectType;
         root.children = [NSMutableArray<AIFileNode *> array];
         [root.children addObject:projectNode];
+        [self.projectContents setValue:projectNode forKey:@"AIProjectNode"];
         
         NSURL *srcURL = [mainDirectoryUrl URLByAppendingPathComponent:@"src/" isDirectory:YES];
         [[NSFileManager defaultManager] createDirectoryAtURL:srcURL  withIntermediateDirectories:NO attributes:nil error:nil];
@@ -269,6 +338,7 @@
         srcNode.fileNodeType = AIFileNodeFolderType;
         srcNode.leaf = NO;
         [root.children addObject:srcNode];
+        [self.projectContents setValue:srcNode forKey:@"AISrcNode"];
         
         NSURL *productURL = [mainDirectoryUrl URLByAppendingPathComponent:@"product/" isDirectory:YES];
         [[NSFileManager defaultManager] createDirectoryAtURL:productURL withIntermediateDirectories:NO attributes:nil error:nil];
@@ -278,6 +348,7 @@
         productNode.fileNodeType = AIFileNodeFolderType;
         productNode.leaf = NO;
         [root.children addObject:productNode];
+        [self.projectContents setValue:productNode forKey:@"AIProductNode"];
         
         NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
         if (!fileNodes) {
@@ -294,23 +365,44 @@
 
 #pragma mark conform to <NSOpenSavePanelDelegate>
 - (BOOL)panel:(id)sender validateURL:(NSURL *)url error:(NSError * _Nullable __autoreleasing *)outError {
-    NSString *primaryPath = [url absoluteString];
-    NSString *processedPath = [NSString stringWithFormat:@"%@%@/", primaryPath, self.projectName];
-    NSURL *processedURL = [NSURL URLWithString:processedPath];
-    BOOL hasCreatedDirectory = [[NSFileManager defaultManager] createDirectoryAtURL:processedURL withIntermediateDirectories:NO attributes:nil error:outError];
-    if (hasCreatedDirectory) {
-        AIFileNode *root = [[AIFileNode alloc] init];
-        root.nodeURL = processedURL;
-        root.parent = nil;
-        root.leaf = NO;
-        root.fileNodeType = AIFileNodeFolderType;
-        [self.projectContents setObject:root forKey:@"AIFileTree"];
-        
-        NSMutableArray<AIFileNode *> *fileNodes = [NSMutableArray<AIFileNode *> array];
-        [fileNodes addObject:root];
-        [self.projectContents setObject:fileNodes forKey:@"AIFileNodes"];
+    switch (self.panelStatus) {
+        case AICreatePanelStatus:
+        {
+            NSString *primaryPath = [url absoluteString];
+            NSString *processedPath = [NSString stringWithFormat:@"%@%@/", primaryPath, self.projectName];
+            NSURL *processedURL = [NSURL URLWithString:processedPath];
+            BOOL hasCreatedDirectory = [[NSFileManager defaultManager] createDirectoryAtURL:processedURL withIntermediateDirectories:NO attributes:nil error:outError];
+            if (hasCreatedDirectory) {
+                AIFileNode *root = [[AIFileNode alloc] init];
+                root.nodeURL = processedURL;
+                root.parent = nil;
+                root.leaf = NO;
+                root.fileNodeType = AIFileNodeFolderType;
+                [self.projectContents setObject:root forKey:@"AIFileTree"];
+                
+                NSMutableArray<AIFileNode *> *fileNodes = [NSMutableArray<AIFileNode *> array];
+                [fileNodes addObject:root];
+                [self.projectContents setObject:fileNodes forKey:@"AIFileNodes"];
+            }
+            return hasCreatedDirectory;
+        }
+            break;
+            
+        case AIOpenPanelStatus:
+        {
+            NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
+            for (AIFileNode *fileNode in fileNodes) {
+                if ([fileNode.nodeURL isEqualTo:url]) {
+                    NSError *error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:516 userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"This file or folder has existed in the project", @"error description of duplicated files"), NSLocalizedRecoverySuggestionErrorKey:NSLocalizedString(@"To solve this problem, you should select another file or folder", @"error suggestion of duplicated files")}];
+                    *outError = error;
+                    return NO;
+                }
+            }
+            return YES;
+        }
+            break;
     }
-    return hasCreatedDirectory;
+    return YES;
 }
 
 @end

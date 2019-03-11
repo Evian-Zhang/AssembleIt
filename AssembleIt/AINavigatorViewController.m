@@ -25,18 +25,25 @@
     self.outlineView.dataSource = self;
     self.createFileItem.target = self;
     self.createFileItem.action = @selector(handleCreateFileItem);
+    self.addFilesItem.target = self;
+    self.addFilesItem.action = @selector(handleAddFilesItem);
 }
 
 - (void)viewDidAppear {
     [self.outlineView reloadData];
     
-    self.currentFileNode = self.root.children[0];
+    self.currentFileNode = self.projectNode;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AIFileTableSelectionDidChangeNotification" object:nil userInfo:@{@"currentFileNode":self.currentFileNode}];
 }
 
 - (void)handleCreateFileItem {
     AIFileNode *clickedFileNode = [self.outlineView itemAtRow:self.outlineView.clickedRow];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AICreateFileForNode" object:nil userInfo:@{@"fileNode":clickedFileNode, @"root":self.root}];
+}
+
+- (void)handleAddFilesItem {
+    AIFileNode *clickedFileNode = [self.outlineView itemAtRow:self.outlineView.clickedRow];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIAddFilesForNode" object:nil userInfo:@{@"fileNode":clickedFileNode, @"root":self.root}];
 }
 
 - (void)changeCurrentFileNodeTo:(AIFileNode *)fileNode {
@@ -88,7 +95,7 @@
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-    AIFileNode *selectedFileNode = self.outlineView.selectedCell.objectValue;
+    AIFileNode *selectedFileNode = [self.outlineView itemAtRow:self.outlineView.selectedRow];
     if (selectedFileNode) {
         BOOL isFile = YES;
         switch (selectedFileNode.fileNodeType) {

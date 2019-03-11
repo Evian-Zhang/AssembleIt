@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSString* content;
 
+- (void)updateContent;
+
 @end
 
 NS_ASSUME_NONNULL_END
