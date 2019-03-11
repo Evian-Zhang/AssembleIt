@@ -34,6 +34,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidAppear) name:@"AIProjectWindowSetUpComplete" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification:) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCreateFileForNodeNotification:) name:@"AICreateFileForNode" object:nil];
 }
 
 #pragma mark - window controller of document
@@ -128,6 +129,56 @@
 #pragma mark - autosave
 + (BOOL)autosavesInPlace {
     return YES;
+}
+
+
+#pragma mark - create new file
+- (void)handleCreateFileForNodeNotification:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    AIFileNode *fileNode = [userInfo valueForKey:@"fileNode"];
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    savePanel.prompt = NSLocalizedString(@"create", @"Button Prompt of create panel in new asm file");
+    savePanel.allowedFileTypes = @[@"asm"];
+    savePanel.allowsOtherFileTypes = NO;
+    savePanel.nameFieldStringValue = @"untitled.asm";
+    if (fileNode.fileNodeType == AIFileNodeFolderType) {
+        [savePanel setDirectoryURL:fileNode.nodeURL];
+    } else {
+        AIFileNode *root = [userInfo valueForKey:@"root"];
+        savePanel.directoryURL = root.nodeURL;
+    }
+    AIOpenSavePanelAccessoryViewController *accessoryViewController = [[AIOpenSavePanelAccessoryViewController alloc] initWithNibName:@"AIOpenSavePanelAccessoryViewController" bundle:nil];
+    NSMutableArray<AIFileNode *> *folders = [NSMutableArray<AIFileNode *> array];
+    NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
+    for (AIFileNode *tmpFileNode in fileNodes) {
+        if (tmpFileNode.fileNodeType == AIFileNodeFolderType) {
+            [folders addObject:tmpFileNode];
+        }
+    }
+    accessoryViewController.folders = folders;
+    savePanel.accessoryView = accessoryViewController.view;
+    [savePanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSModalResponse result) {
+        switch (result) {
+            case NSModalResponseOK:
+            {
+                [[NSFileManager defaultManager] createFileAtPath:savePanel.URL.path contents:nil attributes:nil];
+                AIFileNode *fileNode = [AIFileNode fileNodeWIthURL:savePanel.URL fileNodeType:AIFileNodeASMType toParentNode:accessoryViewController.currentFolder isLeaf:YES];
+                [fileNodes addObject:fileNode];
+                AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+                [projectWindowController.projectViewController.navigatorViewController changeCurrentFileNodeTo:fileNode];
+            }
+                break;
+                
+            case NSModalResponseCancel:
+            {
+                
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }];
 }
 
 #pragma mark - open a new document and save

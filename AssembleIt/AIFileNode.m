@@ -29,6 +29,23 @@
     return self.nodeURL.lastPathComponent;
 }
 
++ (AIFileNode *)fileNodeWIthURL:(NSURL *)nodeURL fileNodeType:(AIFileNodeType)fileNodeType toParentNode:(AIFileNode *)parent isLeaf:(BOOL)leaf {
+    AIFileNode *fileNode = [[AIFileNode alloc] init];
+    fileNode.nodeURL = nodeURL;
+    fileNode.fileNodeType = fileNodeType;
+    fileNode.parent = parent;
+    fileNode.leaf = leaf;
+    if (parent) {
+        NSMutableArray<AIFileNode *> *children = parent.children;
+        if (!children) {
+            children = [NSMutableArray<AIFileNode *> array];
+            parent.children = children;
+        }
+        [children addObject:fileNode];
+    }
+    return fileNode;
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.nodeURL forKey:@"nodeURL"];
     [aCoder encodeObject:self.parent forKey:@"parent"];

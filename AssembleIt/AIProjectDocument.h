@@ -10,6 +10,7 @@
 
 #import "AIProjectViewController.h"
 #import "AIProjectWindowController.h"
+#import "AIOpenSavePanelAccessoryViewController.h"
 #import "AIFileNode.h"
 
 NS_ASSUME_NONNULL_BEGIN

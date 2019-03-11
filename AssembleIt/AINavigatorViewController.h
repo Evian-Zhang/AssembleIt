@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) AIFileNode *currentFileNode;
 @property (nonatomic) NSMutableArray<AIFileNode *> *fileNodes;
 
-- (void)createNewFileWithURL:(NSURL *)url andDirectoryURL:(NSURL *)directoryUrl forParent:(AIFileNode *)parentNode;
+- (void)changeCurrentFileNodeTo:(AIFileNode *)fileNode;
 
 @end
 

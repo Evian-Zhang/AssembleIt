@@ -39,34 +39,9 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AICreateFileForNode" object:nil userInfo:@{@"fileNode":clickedFileNode, @"root":self.root}];
 }
 
-- (void)createNewFileWithURL:(NSURL *)url andDirectoryURL:(NSURL *)directoryUrl forParent:(AIFileNode *)parentNode {
-    AIFileNode *fileNode = [[AIFileNode alloc] init];
-    fileNode.fileNodeType = AIFileNodeASMType;
-    fileNode.nodeURL = url;
-    fileNode.leaf = YES;
-    if (![parentNode.nodeURL isEqualTo:directoryUrl]) {
-        BOOL hasFound = NO;
-        for (AIFileNode *existFileNode in self.fileNodes) {
-            if ([existFileNode.nodeURL isEqualTo:directoryUrl]) {
-                parentNode = existFileNode;
-                hasFound = YES;
-                break;
-            }
-        }
-        if (!hasFound) {
-            parentNode = self.root;
-        }
-    }
-    fileNode.parent = parentNode;
-    NSMutableArray<AIFileNode *> *children = parentNode.children;
-    if (!children) {
-        children = [NSMutableArray<AIFileNode *> array];
-        parentNode.children = children;
-    }
-    [children addObject:fileNode];
-    [self.outlineView reloadData];
+- (void)changeCurrentFileNodeTo:(AIFileNode *)fileNode {
     self.currentFileNode = fileNode;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AIFileTableSelectionDidChangeNotification" object:nil userInfo:@{@"currentFileNode":self.currentFileNode}];
+    [self.outlineView reloadData];
 }
 
 #pragma mark - conform to <NSOutlineViewDataSource>

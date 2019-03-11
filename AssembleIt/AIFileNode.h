@@ -25,6 +25,8 @@ typedef enum {
 @property (nonatomic, getter = isLeaf) BOOL leaf;
 @property (nonatomic) AIFileNodeType fileNodeType;
 
++ (AIFileNode *)fileNodeWIthURL:(NSURL *)nodeURL fileNodeType:(AIFileNodeType)fileNodeType toParentNode:(AIFileNode *)parent isLeaf:(BOOL)leaf;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -17,6 +17,8 @@
 		56807971222C10C0000DA9BA /* AICodeViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 5680796F222C10C0000DA9BA /* AICodeViewController2.m */; };
 		56807972222C10C0000DA9BA /* AICodeViewController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56807970222C10C0000DA9BA /* AICodeViewController2.xib */; };
 		56807975222C2D33000DA9BA /* AIRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56807974222C2D33000DA9BA /* AIRulerView.m */; };
+		5683BE31223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5683BE2F223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.m */; };
+		5683BE32223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5683BE30223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.xib */; };
 		56B85EF6222CBAA800CE3AE6 /* AIProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B85EF4222CBAA800CE3AE6 /* AIProjectViewController.m */; };
 		56B85EF7222CBAA800CE3AE6 /* AIProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56B85EF5222CBAA800CE3AE6 /* AIProjectViewController.xib */; };
 		56ED6C902234D3480054385C /* AIFileNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 56ED6C8F2234D3480054385C /* AIFileNode.m */; };
@@ -47,6 +49,9 @@
 		56807970222C10C0000DA9BA /* AICodeViewController2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AICodeViewController2.xib; sourceTree = "<group>"; };
 		56807973222C2D33000DA9BA /* AIRulerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIRulerView.h; sourceTree = "<group>"; };
 		56807974222C2D33000DA9BA /* AIRulerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIRulerView.m; sourceTree = "<group>"; };
+		5683BE2E223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIOpenSavePanelAccessoryViewController.h; sourceTree = "<group>"; };
+		5683BE2F223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIOpenSavePanelAccessoryViewController.m; sourceTree = "<group>"; };
+		5683BE30223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AIOpenSavePanelAccessoryViewController.xib; sourceTree = "<group>"; };
 		56B85EF3222CBAA800CE3AE6 /* AIProjectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIProjectViewController.h; sourceTree = "<group>"; };
 		56B85EF4222CBAA800CE3AE6 /* AIProjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIProjectViewController.m; sourceTree = "<group>"; };
 		56B85EF5222CBAA800CE3AE6 /* AIProjectViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AIProjectViewController.xib; sourceTree = "<group>"; };
@@ -114,6 +119,8 @@
 				562D923822318EED00201986 /* AIProjectStartViewController.m */,
 				564B3319223389AB003B4A65 /* AINavigatorViewController.h */,
 				564B331A223389AB003B4A65 /* AINavigatorViewController.m */,
+				5683BE2E223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.h */,
+				5683BE2F223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.m */,
 				56ED6C8E2234D3480054385C /* AIFileNode.h */,
 				56ED6C8F2234D3480054385C /* AIFileNode.m */,
 				56F59522222B7DAC006C5C8F /* AICodeViewController.h */,
@@ -142,6 +149,7 @@
 				56B85EF5222CBAA800CE3AE6 /* AIProjectViewController.xib */,
 				562D923922318EED00201986 /* AIProjectStartViewController.xib */,
 				564B331B223389AB003B4A65 /* AINavigatorViewController.xib */,
+				5683BE30223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.xib */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -204,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56F59514222B781E006C5C8F /* Assets.xcassets in Resources */,
+				5683BE32223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.xib in Resources */,
 				56807972222C10C0000DA9BA /* AICodeViewController2.xib in Resources */,
 				565D7566222E800900914EDA /* AIProjectWindowController.xib in Resources */,
 				56B85EF7222CBAA800CE3AE6 /* AIProjectViewController.xib in Resources */,
@@ -228,6 +237,7 @@
 				564B331C223389AB003B4A65 /* AINavigatorViewController.m in Sources */,
 				56F59525222B7DAC006C5C8F /* AICodeViewController.m in Sources */,
 				56807971222C10C0000DA9BA /* AICodeViewController2.m in Sources */,
+				5683BE31223642F500C3F6C4 /* AIOpenSavePanelAccessoryViewController.m in Sources */,
 				56B85EF6222CBAA800CE3AE6 /* AIProjectViewController.m in Sources */,
 				56F5951A222B781E006C5C8F /* main.m in Sources */,
 				564A4ECA222D7C4500F8D08B /* AIProjectDocument.m in Sources */,
