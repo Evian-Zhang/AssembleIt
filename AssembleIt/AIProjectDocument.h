@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
 #import "AIProjectViewController.h"
 #import "AIProjectWindowController.h"
 #import "AIOpenSavePanelAccessoryViewController.h"
@@ -17,14 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AIProjectDocument : NSDocument <NSOpenSavePanelDelegate>
 
-typedef enum AIPanelStatus {
-    AICreatePanelStatus,
-    AIOpenPanelStatus
-} AIPanelStatus;
-
 @property (nonatomic) AIOpenSavePanelAccessoryViewController *accessoryViewController;
 @property (nonatomic) NSString *projectName;
 @property (nonatomic, strong) NSMutableDictionary *projectContents;
+@property (nonatomic, strong) NSMutableDictionary<NSURL *, NSValue *> *fileInfos;
 @property (nonatomic) AIPanelStatus panelStatus;
 
 @end

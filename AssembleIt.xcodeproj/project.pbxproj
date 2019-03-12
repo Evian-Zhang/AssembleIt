@@ -12,6 +12,7 @@
 		564A4ECA222D7C4500F8D08B /* AIProjectDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 564A4EC8222D7C4500F8D08B /* AIProjectDocument.m */; };
 		564B331C223389AB003B4A65 /* AINavigatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 564B331A223389AB003B4A65 /* AINavigatorViewController.m */; };
 		564B331D223389AB003B4A65 /* AINavigatorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564B331B223389AB003B4A65 /* AINavigatorViewController.xib */; };
+		565BCCEE22376B40006CEDE3 /* AIPrefix.m in Sources */ = {isa = PBXBuildFile; fileRef = 565BCCED22376B40006CEDE3 /* AIPrefix.m */; };
 		565D7565222E800900914EDA /* AIProjectWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 565D7563222E800900914EDA /* AIProjectWindowController.m */; };
 		565D7566222E800900914EDA /* AIProjectWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 565D7564222E800900914EDA /* AIProjectWindowController.xib */; };
 		56807971222C10C0000DA9BA /* AICodeViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 5680796F222C10C0000DA9BA /* AICodeViewController2.m */; };
@@ -41,6 +42,8 @@
 		564B3319223389AB003B4A65 /* AINavigatorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AINavigatorViewController.h; sourceTree = "<group>"; };
 		564B331A223389AB003B4A65 /* AINavigatorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AINavigatorViewController.m; sourceTree = "<group>"; };
 		564B331B223389AB003B4A65 /* AINavigatorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AINavigatorViewController.xib; sourceTree = "<group>"; };
+		565BCCEC22376B40006CEDE3 /* AIPrefix.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIPrefix.h; sourceTree = "<group>"; };
+		565BCCED22376B40006CEDE3 /* AIPrefix.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIPrefix.m; sourceTree = "<group>"; };
 		565D7562222E800900914EDA /* AIProjectWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AIProjectWindowController.h; sourceTree = "<group>"; };
 		565D7563222E800900914EDA /* AIProjectWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIProjectWindowController.m; sourceTree = "<group>"; };
 		565D7564222E800900914EDA /* AIProjectWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AIProjectWindowController.xib; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				5680796F222C10C0000DA9BA /* AICodeViewController2.m */,
 				56807973222C2D33000DA9BA /* AIRulerView.h */,
 				56807974222C2D33000DA9BA /* AIRulerView.m */,
+				565BCCEC22376B40006CEDE3 /* AIPrefix.h */,
+				565BCCED22376B40006CEDE3 /* AIPrefix.m */,
 				56F59513222B781E006C5C8F /* Assets.xcassets */,
 				56F59518222B781E006C5C8F /* Info.plist */,
 				56F59519222B781E006C5C8F /* main.m */,
@@ -234,6 +239,7 @@
 				565D7565222E800900914EDA /* AIProjectWindowController.m in Sources */,
 				56F5950F222B781D006C5C8F /* Document.m in Sources */,
 				56807975222C2D33000DA9BA /* AIRulerView.m in Sources */,
+				565BCCEE22376B40006CEDE3 /* AIPrefix.m in Sources */,
 				564B331C223389AB003B4A65 /* AINavigatorViewController.m in Sources */,
 				56F59525222B7DAC006C5C8F /* AICodeViewController.m in Sources */,
 				56807971222C10C0000DA9BA /* AICodeViewController2.m in Sources */,

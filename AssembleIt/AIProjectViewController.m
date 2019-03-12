@@ -10,11 +10,6 @@
 
 @interface AIProjectViewController ()
 
-typedef enum AISplitViewIndex {
-    NAVIGATORVIEW = 0,
-    CODEVIEW,
-} AISplitViewIndex;
-
 @end
 
 @implementation AIProjectViewController
@@ -58,7 +53,12 @@ typedef enum AISplitViewIndex {
         case AIFileNodeASMType:
         {
             NSError *error;
-            self.codeViewController.content = [NSString stringWithContentsOfURL:currentFileNode.nodeURL encoding:NSUTF8StringEncoding error:&error];
+            NSString *fileContent = [NSString stringWithContentsOfURL:currentFileNode.nodeURL encoding:NSUTF8StringEncoding error:&error];
+            self.codeViewController.content = fileContent;
+            NSValue *value = [self.projectContents objectForKey:currentFileNode.nodeURL];
+            if (!value) {
+                
+            }
             [self.codeViewController.view setFrame:self.splitView.subviews[CODEVIEW].frame];
             [self.splitView replaceSubview:self.splitView.subviews[CODEVIEW] with:self.codeViewController.view];
             [self.codeViewController updateContent];
