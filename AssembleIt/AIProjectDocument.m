@@ -13,12 +13,14 @@
 @synthesize accessoryViewController = _accessoryViewController;
 @synthesize projectName = _projectName;
 @synthesize projectContents = _projectContents;
+@synthesize fileInfos = _fileInfos;
 @synthesize panelStatus = _panelStatus;
 
 #pragma mark - initializer
 - (instancetype)init {
     if (self = [super init]) {
         self.projectContents = [NSMutableDictionary dictionary];
+        self.fileInfos = [NSMutableDictionary<NSURL *, NSValue *> dictionary];
         [self initNotifications];
         return self;
     }
@@ -38,6 +40,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCreateFileForNodeNotification:) name:@"AICreateFileForNode" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAddFilesForNodeNotification:) name:@"AIAddFilesForNode" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAICodeViewTextDidChangeNotification) name:@"AICodeViewTextDidChange" object:nil];
 }
 
 #pragma mark - window controller of document
@@ -70,7 +73,7 @@
 #pragma mark - build window
 - (void)buildWindow {
     AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
-    [projectWindowController buildViewWithProjectContents:self.projectContents];
+    [projectWindowController buildViewWithProjectContents:self.projectContents fileInfo:self.fileInfos];
 }
 
 #pragma mark - write
@@ -96,7 +99,14 @@
 }
 
 - (BOOL)writeSafelyToURL:(NSURL *)url ofType:(NSString *)typeName forSaveOperation:(NSSaveOperationType)saveOperation error:(NSError * _Nullable __autoreleasing *)outError {
-    
+    for (NSURL *fileURL in self.fileInfos.allKeys) {
+        NSMutableDictionary *fileInfoDict = [self.fileInfos objectForKey:fileURL];
+        NSNumber *hasChanged = [fileInfoDict objectForKey:@"hasChanged"];
+        if (hasChanged.boolValue) {
+            [[fileInfoDict objectForKey:@"fileContent"] writeToURL:fileURL atomically:YES encoding:NSUTF8StringEncoding error:nil];
+            [fileInfoDict setObject:[NSNumber numberWithBool:NO] forKey:@"hasChanged"];
+        }
+    }
     return [super writeSafelyToURL:url ofType:typeName forSaveOperation:saveOperation error:outError];
 }
 
@@ -246,6 +256,11 @@
         }
     }];
     
+}
+
+#pragma mark - handle the notification of AICodeViewTextDidChange
+- (void)handleAICodeViewTextDidChangeNotification {
+    [self updateChangeCount:NSChangeDone];
 }
 
 #pragma mark - open a new document and save

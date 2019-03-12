@@ -22,11 +22,6 @@ typedef enum AISplitViewIndex {
     CODEVIEW,
 } AISplitViewIndex;
 
-typedef struct AIFileInfo {
-    BOOL hasChanged;
-    NSString *fileContent;
-} AIFileInfo;
-
 @end
 
 NS_ASSUME_NONNULL_END

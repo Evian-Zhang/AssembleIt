@@ -28,6 +28,8 @@
     
     self.scrollView.verticalRulerView = rulerView;
     self.scrollView.rulersVisible = YES;
+    
+    self.codeView.delegate = self;
     // Do view setup here.
 }
 
@@ -41,6 +43,10 @@
     if (self.content && self.content.length > 0) {
         self.codeView.string = self.content;
     }
+}
+
+- (void)textDidChange:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AICodeViewTextDidChange" object:nil];
 }
 
 @end

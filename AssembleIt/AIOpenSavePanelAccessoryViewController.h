@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
 #import "AIFileNode.h"
 
 NS_ASSUME_NONNULL_BEGIN

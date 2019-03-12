@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
 #import "AIProjectViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)displayStartView;
 - (void)dismissStartView;
-- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents;
+- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents fileInfo:(NSMutableDictionary<NSURL *, NSMutableDictionary *> *)fileInfos;
 
 @end
 

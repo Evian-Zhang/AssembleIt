@@ -8,11 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
 #import "AIRulerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AICodeViewController2 : NSViewController
+@interface AICodeViewController2 : NSViewController <NSTextViewDelegate>
 
 @property (nonatomic) IBOutlet NSTextView *codeView;
 @property (nonatomic) IBOutlet NSScrollView *scrollView;

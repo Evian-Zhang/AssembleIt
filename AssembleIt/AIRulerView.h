@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AIRulerView : NSRulerView

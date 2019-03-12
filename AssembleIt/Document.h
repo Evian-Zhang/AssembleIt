@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
 #import "AICodeViewController.h"
 #import "AICodeViewController2.h"
 

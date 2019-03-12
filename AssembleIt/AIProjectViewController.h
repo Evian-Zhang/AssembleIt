@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
 #import "AIProjectStartViewController.h"
 #import "AINavigatorViewController.h"
 #import "AICodeViewController2.h"
@@ -21,9 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) AINavigatorViewController *navigatorViewController;
 @property (nonatomic) AICodeViewController2 *codeViewController;
 @property (nonatomic) AIProjectStartViewController *startViewController;
-@property (nonatomic, copy) NSMutableDictionary *projectContents;
+@property (nonatomic, strong) NSMutableDictionary *projectContents;
+@property (nonatomic) NSMutableDictionary<NSURL *, NSMutableDictionary *> *fileInfos;
 
-- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents;
+- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents fileInfo:(NSMutableDictionary<NSURL *, NSMutableDictionary *> *)fileInfos;
 
 @end
 

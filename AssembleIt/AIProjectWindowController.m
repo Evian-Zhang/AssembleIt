@@ -39,8 +39,8 @@
     [self.contentViewController dismissViewController:startViewController];
 }
 
-- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents {
-    [self.projectViewController buildViewWithProjectContents:projectContents];
+- (void)buildViewWithProjectContents:(NSMutableDictionary *)projectContents fileInfo:(NSMutableDictionary<NSURL *, NSMutableDictionary *> *)fileInfos {
+    [self.projectViewController buildViewWithProjectContents:projectContents fileInfo:fileInfos];
 }
 
 @end

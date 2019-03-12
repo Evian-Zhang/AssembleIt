@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "AIPrefix.h"
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 
