@@ -25,6 +25,8 @@
     self.outlineView.dataSource = self;
     self.createFileItem.target = self;
     self.createFileItem.action = @selector(handleCreateFileItem);
+    self.createFolderItem.target = self;
+    self.createFolderItem.action = @selector(handleCreateFolderItem);
     self.addFilesItem.target = self;
     self.addFilesItem.action = @selector(handleAddFilesItem);
 }
@@ -39,6 +41,11 @@
 - (void)handleCreateFileItem {
     AIFileNode *clickedFileNode = [self.outlineView itemAtRow:self.outlineView.clickedRow];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AICreateFileForNode" object:nil userInfo:@{@"fileNode":clickedFileNode, @"root":self.root}];
+}
+
+- (void)handleCreateFolderItem {
+    AIFileNode *clickedFileNode = [self.outlineView itemAtRow:self.outlineView.clickedRow];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AICreateFolderForNode" object:nil userInfo:@{@"fileNode":clickedFileNode, @"root":self.root}];
 }
 
 - (void)handleAddFilesItem {

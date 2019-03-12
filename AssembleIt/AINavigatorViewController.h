@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) IBOutlet NSOutlineView *outlineView;
 @property (nonatomic) IBOutlet NSMenu *contextualMenu;
 @property (nonatomic) IBOutlet NSMenuItem *createFileItem;
+@property (nonatomic) IBOutlet NSMenuItem *createFolderItem;
 @property (nonatomic) IBOutlet NSMenuItem *addFilesItem;
 
 @property (nonatomic) AIFileNode *root;

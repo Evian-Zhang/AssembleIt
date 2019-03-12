@@ -20,7 +20,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.projectContents = [NSMutableDictionary dictionary];
-        self.fileInfos = [NSMutableDictionary<NSURL *, NSValue *> dictionary];
+        self.fileInfos = [NSMutableDictionary<NSURL *, NSMutableDictionary *> dictionary];
         [self initNotifications];
         return self;
     }
@@ -39,6 +39,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewOkButtonPressedNotification:) name:@"AIProjectViewStartViewOkButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIProjectViewStartViewCancelButtonPressedNotification) name:@"AIProjectViewStartViewCancelButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCreateFileForNodeNotification:) name:@"AICreateFileForNode" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCreateFolderForNodeNotification:) name:@"AICreateFolderForNode" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAddFilesForNodeNotification:) name:@"AIAddFilesForNode" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAICodeViewTextDidChangeNotification) name:@"AICodeViewTextDidChange" object:nil];
 }
@@ -144,6 +145,61 @@
     return YES;
 }
 
+
+#pragma mark - create new folder
+- (void)handleCreateFolderForNodeNotification:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    AIFileNode *fileNode = [userInfo valueForKey:@"fileNode"];
+    switch (fileNode.fileNodeType) {
+        case AIFileNodeFolderType:
+        {
+            NSString *parentPath = [fileNode.nodeURL absoluteString];
+            NSString *folderPath = [NSString stringWithFormat:@"%@folder/", parentPath];
+            int i = 1;
+            NSError *error;
+            while (![[NSFileManager defaultManager] createDirectoryAtURL:[NSURL URLWithString:folderPath] withIntermediateDirectories:NO attributes:nil error:&error]) {
+                folderPath = [NSString stringWithFormat:@"%@folder-%d/",parentPath, i];
+                i++;
+                if (error) {
+                    NSLog(@"%@", error);
+                }
+            }
+            AIFileNode *folderNode = [AIFileNode fileNodeWIthURL:[NSURL URLWithString:folderPath] fileNodeType:AIFileNodeFolderType toParentNode:fileNode isLeaf:NO];
+            NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
+            [fileNodes addObject:folderNode];
+            [self updateChangeCount:NSChangeDone];
+            AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+            [projectWindowController.projectViewController.navigatorViewController.outlineView reloadData];
+        }
+            break;
+            
+        default:
+        {
+            AIFileNode *parent = fileNode.parent;
+            if (!parent) {
+                parent = fileNode;
+            }
+            NSString *parentPath = [parent.nodeURL absoluteString];
+            NSString *folderPath = [NSString stringWithFormat:@"%@folder/", parentPath];
+            int i = 1;
+            NSError *error;
+            while (![[NSFileManager defaultManager] createDirectoryAtURL:[NSURL URLWithString:folderPath] withIntermediateDirectories:NO attributes:nil error:&error]) {
+                folderPath = [NSString stringWithFormat:@"%@folder-%d/",parentPath, i];
+                i++;
+                if (error) {
+                    NSLog(@"%@", error);
+                }
+            }
+            AIFileNode *folderNode = [AIFileNode fileNodeWIthURL:[NSURL URLWithString:folderPath] fileNodeType:AIFileNodeFolderType toParentNode:parent isLeaf:NO];
+            NSMutableArray<AIFileNode *> *fileNodes = [self.projectContents valueForKey:@"AIFileNodes"];
+            [fileNodes addObject:folderNode];
+            [self updateChangeCount:NSChangeDone];
+            AIProjectWindowController *projectWindowController = (AIProjectWindowController *)self.windowControllers[0];
+            [projectWindowController.projectViewController.navigatorViewController.outlineView reloadData];
+        }
+            break;
+    }
+}
 
 #pragma mark - create new file
 - (void)handleCreateFileForNodeNotification:(NSNotification *)aNotification {

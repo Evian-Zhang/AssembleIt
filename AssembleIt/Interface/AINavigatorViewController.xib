@@ -10,6 +10,7 @@
                 <outlet property="addFilesItem" destination="rDI-5k-f8q" id="bmF-UY-ha4"/>
                 <outlet property="contextualMenu" destination="Kt7-Ca-wJV" id="pxY-aj-191"/>
                 <outlet property="createFileItem" destination="EGp-ER-b6q" id="uZD-FO-O3P"/>
+                <outlet property="createFolderItem" destination="Y9v-Hs-TEI" id="U4O-ve-PGE"/>
                 <outlet property="outlineView" destination="o9F-Tu-p5B" id="cED-4K-c2v"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -100,7 +101,10 @@
                 <menuItem title="New File..." id="EGp-ER-b6q">
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
-                <menuItem title="Add Files..." id="rDI-5k-f8q">
+                <menuItem title="New Folder..." id="Y9v-Hs-TEI">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Add Files/Folder" id="rDI-5k-f8q">
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
             </items>
