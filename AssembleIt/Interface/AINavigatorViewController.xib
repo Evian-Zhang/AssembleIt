@@ -12,6 +12,7 @@
                 <outlet property="createFileItem" destination="EGp-ER-b6q" id="uZD-FO-O3P"/>
                 <outlet property="createFolderItem" destination="Y9v-Hs-TEI" id="U4O-ve-PGE"/>
                 <outlet property="outlineView" destination="o9F-Tu-p5B" id="cED-4K-c2v"/>
+                <outlet property="tableCellView" destination="tmg-r5-CsL" id="Goo-7I-4YD"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -53,7 +54,7 @@
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rIy-si-Qvg">
                                                         <rect key="frame" x="0.0" y="0.0" width="312" height="17"/>
-                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="1FE-Qk-myZ">
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Table View Cell" id="1FE-Qk-myZ">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

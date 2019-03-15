@@ -13,9 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AINavigatorViewController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
+@interface AINavigatorViewController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, NSTextFieldDelegate>
 
 @property (nonatomic) IBOutlet NSOutlineView *outlineView;
+@property (nonatomic) IBOutlet NSTableCellView *tableCellView;
 @property (nonatomic) IBOutlet NSMenu *contextualMenu;
 @property (nonatomic) IBOutlet NSMenuItem *createFileItem;
 @property (nonatomic) IBOutlet NSMenuItem *createFolderItem;

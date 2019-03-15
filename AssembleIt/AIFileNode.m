@@ -46,6 +46,18 @@
     return fileNode;
 }
 
++ (void)changeFileNode:(AIFileNode *)fileNode parentURLFrom:(NSURL *)oldURL to:(NSURL *)newURL {
+    NSString *oldPath = fileNode.nodeURL.absoluteString;
+    NSString *newPath = [oldPath stringByReplacingOccurrencesOfString:oldURL.absoluteString withString:newURL.absoluteString];
+    fileNode.nodeURL = [NSURL URLWithString:newPath];
+    NSMutableArray<AIFileNode *> *children = fileNode.children;
+    if (children) {
+        for (AIFileNode *child in children) {
+            [AIFileNode changeFileNode:child parentURLFrom:[NSURL URLWithString:oldPath] to:fileNode.nodeURL];
+        }
+    }
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.nodeURL forKey:@"nodeURL"];
     [aCoder encodeObject:self.parent forKey:@"parent"];

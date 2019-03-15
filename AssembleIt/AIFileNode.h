@@ -29,6 +29,8 @@ typedef enum {
 
 + (AIFileNode *)fileNodeWIthURL:(NSURL *)nodeURL fileNodeType:(AIFileNodeType)fileNodeType toParentNode:(AIFileNode *)parent isLeaf:(BOOL)leaf;
 
++ (void)changeFileNode:(AIFileNode *)fileNode parentURLFrom:(NSURL *)oldURL to:(NSURL *)newURL;
+
 @end
 
 NS_ASSUME_NONNULL_END

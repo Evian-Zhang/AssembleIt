@@ -42,6 +42,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleCreateFolderForNodeNotification:) name:@"AICreateFolderForNode" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAddFilesForNodeNotification:) name:@"AIAddFilesForNode" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAICodeViewTextDidChangeNotification) name:@"AICodeViewTextDidChange" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIFileNameHasExistedNotification) name:@"AIFileNameHasExistedNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAIFileNameDidChangeNotification:) name:@"AIFileNameDidChangeNotification" object:nil];
 }
 
 #pragma mark - window controller of document
@@ -317,6 +319,34 @@
 #pragma mark - handle the notification of AICodeViewTextDidChange
 - (void)handleAICodeViewTextDidChangeNotification {
     [self updateChangeCount:NSChangeDone];
+}
+
+- (void)handleAIFileNameHasExistedNotification {
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = NSLocalizedString(@"The name has existed.", @"AIFileNameHasExisted alert");
+    [alert runModal];
+}
+
+- (void)handleAIFileNameDidChangeNotification:(NSNotification *)aNotification {
+    NSDictionary *userInfo = aNotification.userInfo;
+    AIFileNode *fileNode = [userInfo objectForKey:@"fileNode"];
+    NSString *newName = [userInfo objectForKey:@"newName"];
+    NSURL *oldURL = [fileNode.nodeURL copy];
+    NSURL *newURL = [[oldURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:newName isDirectory:(fileNode.fileNodeType == AIFileNodeFolderType)];
+    
+    NSError *error;
+    [[NSFileManager defaultManager] moveItemAtURL:oldURL toURL:newURL error:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    } else {
+        fileNode.nodeURL = newURL;
+        NSMutableArray<AIFileNode *> *children = fileNode.children;
+        if (children) {
+            for (AIFileNode *child in children) {
+                [AIFileNode changeFileNode:child parentURLFrom:oldURL to:newURL];
+            }
+        }
+    }
 }
 
 #pragma mark - open a new document and save

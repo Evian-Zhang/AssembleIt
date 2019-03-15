@@ -23,6 +23,7 @@
     // Do view setup here.
     self.outlineView.delegate = self;
     self.outlineView.dataSource = self;
+    self.tableCellView.textField.delegate = self;
     self.createFileItem.target = self;
     self.createFileItem.action = @selector(handleCreateFileItem);
     self.createFolderItem.target = self;
@@ -98,6 +99,7 @@
     AIFileNode *fileNode = item;
     NSTableCellView *tableCellView = [outlineView makeViewWithIdentifier:@"AIFileTableIdentifier" owner:self];
     tableCellView.textField.stringValue = fileNode.fileName;
+    tableCellView.textField.delegate = self;
     return tableCellView;
 }
 
@@ -116,6 +118,25 @@
         if (isFile) {
             self.currentFileNode = selectedFileNode;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"AIFileTableSelectionDidChangeNotification" object:nil userInfo:@{@"currentFileNode":self.currentFileNode}];
+        }
+    }
+}
+
+
+- (void)controlTextDidEndEditing:(NSNotification *)obj {
+    NSDictionary *userInfo = obj.userInfo;
+    NSTextView *textView = [userInfo objectForKey:@"NSFieldEditor"];
+    AIFileNode *fileNode = [self.outlineView itemAtRow:self.outlineView.selectedRow];
+    NSString *newName = [textView.string copy];
+    if (![newName isEqualToString:fileNode.fileName]) {
+        NSURL *oldURL = [fileNode.nodeURL copy];
+        NSURL *newURL = [[oldURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:newName isDirectory:(fileNode.fileNodeType == AIFileNodeFolderType)];
+        BOOL hasFile = [[NSFileManager defaultManager] fileExistsAtPath:newURL.path];
+        if (hasFile) {
+            textView.string = fileNode.fileName;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"AIFileNameHasExistedNotification" object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"AIFileNameDidChangeNotification" object:nil userInfo:@{@"newName":newName, @"fileNode":fileNode}];
         }
     }
 }
